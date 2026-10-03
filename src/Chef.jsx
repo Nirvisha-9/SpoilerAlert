@@ -36,7 +36,7 @@ export default function Chef() {
         <section className="chat__card" key={p.id}>
           <strong>{p.name}</strong>
           <p>{p.description}</p>
-          <p className="chat__meta">${p.price.toFixed(2)}, {p.review.foodCostPct}% food cost. Uses {p.rescues.join(', ').toLowerCase()}.</p>
+          <p className="chat__meta">${p.price.toFixed(2)}, ${p.review.profit.toFixed(2)} profit per {p.review.unit || 'pizza'}. Uses {p.rescues.join(', ').toLowerCase()}.</p>
           <label className="chat__label" htmlFor={`note-${p.id}`}>Add a twist (optional)</label>
           <input id={`note-${p.id}`} placeholder="Make it spicy" value={notes[p.id] || ''} onChange={(e) => setNotes({ ...notes, [p.id]: e.target.value })} />
           <div className="chat__actions">

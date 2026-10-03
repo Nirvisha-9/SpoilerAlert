@@ -3,7 +3,7 @@ import express from 'express';
 import fs from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
-import { buildSnapshot } from './data.js';
+import { buildSnapshot, statusOf, addDays } from './data.js';
 import { pantryReport } from './agents/pantry.js';
 import { proposeSpecials } from './agents/chefAssistant.js';
 import { reviewSpecial } from './agents/marginCritic.js';
@@ -20,6 +20,7 @@ const sleep = (ms) => new Promise((r) => setTimeout(r, ms * SPEED));
 let snapshot = buildSnapshot();
 // The shelf shows what tonight is about first (expiring, low), then the busiest ingredients.
 const shelfItems = (inv) => [...inv.filter((i) => i.status !== 'ok'), ...inv.filter((i) => i.status === 'ok')].slice(0, 15);
+const shelfTiles = () => shelfItems(snapshot.inventory).map(({ name, kind, stock, dailyUse, daysLeft }) => ({ name, kind, stock, dailyUse, daysLeft, status: 'asleep' }));
 const fresh = () => ({
   phase: 'open', // open → closing → pantry → huddle → chef → sunrise
   date: snapshot.date,
@@ -27,7 +28,7 @@ const fresh = () => ({
   source: snapshot.source,
   salesSource: snapshot.salesSource,
   today: snapshot.today,
-  shelf: shelfItems(snapshot.inventory).map(({ name, kind, stock, dailyUse, daysLeft }) => ({ name, kind, stock, dailyUse, daysLeft, status: 'asleep' })),
+  shelf: shelfTiles(),
   messages: [],
   proposals: [],
   special: null,
@@ -57,6 +58,60 @@ app.get('/api/events', (req, res) => {
   req.on('close', () => { clearInterval(ping); clients.delete(res); });
 });
 app.get('/api/state', (_req, res) => res.json(state));
+
+// ---------- closing count: read and correct tonight's inventory before the agents run ----------
+const MAX_DAYS_LEFT = 30;
+const inventoryView = () => ({
+  date: snapshot.date,
+  seed: snapshot.seed,
+  editable: state.phase === 'open',
+  items: snapshot.inventory.map(({ name, kind, stock, dailyUse, daysLeft, shelfDays, expiresOn, status, edited }) =>
+    ({ name, kind, stock, dailyUse, daysLeft, shelfDays, expiresOn, status, edited: Boolean(edited) })),
+});
+
+app.get('/api/inventory', (_req, res) => res.json(inventoryView()));
+
+// Body: { items: [{ name, stock?, daysLeft? }] }. All edits are checked first; nothing is saved if any is invalid.
+app.post('/api/inventory', (req, res) => {
+  if (state.phase !== 'open') return res.status(409).json({ error: 'The count is closed once the shop closes. Start over to count again.' });
+  const edits = req.body?.items;
+  if (!Array.isArray(edits) || edits.length === 0) return res.status(400).json({ error: 'Send at least one item to update.' });
+  const errors = [];
+  const changes = [];
+  for (const e of edits) {
+    const item = snapshot.inventory.find((i) => i.name === e?.name);
+    if (!item) { errors.push({ name: e?.name, field: 'name', error: `${e?.name || 'That item'} isn't in tonight's inventory.` }); continue; }
+    const change = { item };
+    if (e.stock !== undefined) {
+      const stock = Number(e.stock);
+      if (e.stock === '' || !Number.isFinite(stock) || stock < 0) errors.push({ name: item.name, field: 'stock', error: 'Stock must be 0 or more grams.' });
+      else change.stock = Math.round(stock);
+    }
+    if (e.daysLeft !== undefined) {
+      const days = Number(e.daysLeft);
+      if (e.daysLeft === '' || !Number.isInteger(days) || days < 0 || days > MAX_DAYS_LEFT) errors.push({ name: item.name, field: 'daysLeft', error: `Days left must be a whole number from 0 to ${MAX_DAYS_LEFT}.` });
+      else change.daysLeft = days;
+    }
+    changes.push(change);
+  }
+  if (errors.length) return res.status(400).json({ error: errors[0].error, errors });
+
+  for (const { item, stock, daysLeft } of changes) {
+    if (stock !== undefined) item.stock = stock;
+    if (daysLeft !== undefined) {
+      item.daysLeft = daysLeft;
+      item.expiresOn = addDays(snapshot.date, daysLeft);
+      // Keep "delivered + shelf life = expiry" true for the pantry's message; never in the future.
+      const delivered = addDays(item.expiresOn, -item.shelfDays);
+      item.deliveredOn = delivered < snapshot.date ? delivered : snapshot.date;
+    }
+    item.edited = true;
+    item.status = statusOf(item);
+  }
+  state.shelf = shelfTiles();
+  push();
+  res.json(inventoryView());
+});
 
 // ---------- the night ----------
 async function runNight(id, auto) {
@@ -90,7 +145,7 @@ async function runNight(id, auto) {
   for (const p of proposals) {
     if (!alive()) return;
     state.proposals.push({ ...p, review: null });
-    say('@chef-assistant', `Idea: ${p.name}, $${p.price.toFixed(2)}. ${p.pitch}`);
+    say('@chef-assistant', `${p.kind === 'volume' ? 'Volume push' : 'Idea'}: ${p.name}, $${p.price.toFixed(2)}. ${p.pitch}`);
     await sleep(1300);
   }
 

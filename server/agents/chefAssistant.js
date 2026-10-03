@@ -10,39 +10,56 @@ const THEMES = ['Last Call', 'Midnight', 'Closing Time'];
 
 function buildPrompt({ menu, expiring, low, history }) {
   return `You are @chef-assistant for a neighborhood Indian-fusion pizzeria in San Jose. It is closing time.
-Ingredients that expire tomorrow (use them!): ${expiring.map((i) => `${i.name} (${qty(i.stock)} left)`).join(', ')}.
+Ingredients that expire by tomorrow (use them!): ${expiring.map((i) => `${i.name} (${qty(i.stock)} left)`).join(', ')}.
 Running low (avoid): ${low.map((i) => i.name).join(', ') || 'none'}.
 Chef's past decisions: ${history.map((d) => `${d.verdict} "${d.name}"${d.note ? ` (${d.note})` : ''}`).join('; ') || 'none yet'}.
 Our recipes (only use these, no new ingredients):
 ${menu.map((m) => `- ${m.id}: ${m.name} [$${m.price}] ${m.ingredients.map((x) => (m.grams ? `${x} ${m.grams[x]} g` : x)).join(', ')}`).join('\n')}
 
-Propose 2 specials for tomorrow built on our recipes that use the most expiring stock.
-Price each special at its recipe's menu price shown in [$...]. Don't discount: a special that earns less than a normal dish gets blocked.
-Reply with ONLY a JSON array, no prose:
-[{"recipeId":"...","name":"catchy special name","description":"one appetizing sentence","price":<the recipe's menu price>,"pitch":"one sentence to the chef on why"}]`;
+Propose exactly 3 options for tomorrow, each built on one of our recipes:
+- 2 normal specials ("kind": "normal") that use the most expiring stock. Price each at its recipe's menu price shown in [$...]; don't discount.
+- 1 volume push ("kind": "volume"): the recipe that burns the most expiring stock, with extra toppings and a deep discount
+  (at least 40% off the menu price). In "extra", list which of that recipe's ingredients get extra, as a multiplier from 2 to 3,
+  using the ingredient names exactly as written above. Give every expiring ingredient in it at least 2.
+Reply with ONLY a JSON array of 3 objects, no prose:
+[{"kind":"normal","recipeId":"...","name":"catchy special name","description":"one appetizing sentence","price":<the recipe's menu price>,"pitch":"one sentence to the chef on why"},
+ {"kind":"volume","recipeId":"...","name":"...","description":"...","price":<discounted price>,"extra":{"<ingredient>":3},"pitch":"..."}]`;
 }
 
 function fromLLM(text, menu, expiringNames) {
   const json = JSON.parse(text.replace(/```json|```/g, '').trim());
   return json
-    .map((p, i) => {
+    .map((p) => {
       const recipe = menu.find((m) => m.id === p.recipeId);
       if (!recipe) return null;
+      const kind = p.kind === 'volume' ? 'volume' : 'normal';
+      const rescues = recipe.ingredients.filter((x) => expiringNames.has(x));
+      // Extra toppings only count for the volume push, only on the recipe's own ingredients, 1–4x.
+      let portions = {};
+      if (kind === 'volume') {
+        for (const [ing, mult] of Object.entries(p.extra || {})) {
+          const m = Number(mult);
+          if (recipe.ingredients.includes(ing) && Number.isFinite(m)) portions[ing] = Math.min(4, Math.max(1, m));
+        }
+        if (!Object.keys(portions).length) portions = Object.fromEntries(rescues.map((x) => [x, 3]));
+      }
       return {
-        id: `s${i + 1}`,
+        kind,
         recipeId: recipe.id,
         name: p.name,
         description: p.description,
-        price: Number(p.price) || recipe.price,
+        price: Number(p.price) || (kind === 'volume' ? Number((recipe.price * 0.5).toFixed(2)) : recipe.price),
         pitch: p.pitch,
         ingredients: recipe.ingredients,
         grams: recipe.grams,
-        portions: {},
-        rescues: recipe.ingredients.filter((x) => expiringNames.has(x)),
+        portions,
+        rescues,
         source: 'zoowork',
       };
     })
-    .filter(Boolean);
+    .filter(Boolean)
+    .sort((a, b) => (a.kind === 'volume') - (b.kind === 'volume')) // normal specials first
+    .map((p, i) => ({ id: `s${i + 1}`, ...p }));
 }
 
 function fallback({ menu, expiring, low, history }) {
@@ -74,6 +91,7 @@ function fallback({ menu, expiring, low, history }) {
 
   const proposals = usable.map((r, i) => ({
     id: `s${i + 1}`,
+    kind: 'normal',
     recipeId: r.m.id,
     name: `${THEMES[i % THEMES.length]} ${short(r.m.name)}`,
     description: `Our ${dish(r.m)}, piled with fresh ${r.rescues.map((x) => x.toLowerCase()).join(' and ')}.`,
@@ -93,6 +111,7 @@ function fallback({ menu, expiring, low, history }) {
     const portions = Object.fromEntries(r.m.ingredients.map((x) => [x, r.rescues.includes(x) ? 3 : x === 'Pizza Dough' ? 1 : 2]));
     proposals.push({
       id: 's3',
+      kind: 'volume',
       recipeId: r.m.id,
       name: `Loaded ${short(r.m.name)}`,
       description: `Double everything and triple ${r.rescues.map((x) => x.toLowerCase()).join(', triple ')}, half price to clear the shelf.`,

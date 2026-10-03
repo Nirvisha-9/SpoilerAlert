@@ -41,6 +41,7 @@ export function reviewSpecial(special, inventory, menu = []) {
     cost: Number(cost.toFixed(2)),
     foodCostPct: Math.round(pct * 100),
     profit: Number(profit.toFixed(2)),
+    unit,
     avgProfit: avgProfit == null ? null : Number(avgProfit.toFixed(2)),
     lossVsNormal: avgProfit == null ? null : Number(Math.max(0, avgProfit - profit).toFixed(2)),
     text: approved

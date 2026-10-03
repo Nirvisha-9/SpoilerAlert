@@ -82,6 +82,25 @@ button, input { font: inherit; }
 .huddle { background: var(--ink-2); border-radius: 22px; padding: 18px 20px; max-height: calc(100vh - 150px); overflow-y: auto; }
 .huddle__title { font-family: var(--display); font-weight: 400; font-size: 1.5rem; margin: 0 0 10px; }
 .huddle__empty { color: var(--moon-dim); }
+
+/* ---------- closing count (open phase) ---------- */
+.count { background: var(--ink-2); border-radius: 22px; padding: 18px 20px; max-height: calc(100vh - 150px); overflow-y: auto; }
+.count__head { display: flex; align-items: center; justify-content: space-between; gap: 12px; }
+.count__title { font-family: var(--display); font-weight: 400; font-size: 1.5rem; margin: 0; }
+.count__hint { margin: 6px 0 12px; color: var(--moon-dim); font-size: 0.9rem; }
+.count__search input { width: 100%; padding: 8px 12px; border-radius: 10px; border: 1px solid var(--ink-3); background: var(--ink); color: var(--moon); margin-bottom: 10px; }
+.count__table { width: 100%; border-collapse: collapse; font-size: 0.9rem; }
+.count__table th, .count__table td { padding: 5px 6px; text-align: left; vertical-align: top; border-bottom: 1px solid var(--ink-3); }
+.count__table thead th { position: sticky; top: -18px; background: var(--ink-2); color: var(--moon-dim); font-weight: 500; font-size: 0.8rem; }
+.count__table tbody th { font-weight: 500; }
+.count__table input { width: 6.5em; padding: 4px 6px; border-radius: 8px; border: 1px solid var(--ink-3); background: var(--ink); color: var(--moon); }
+.count__table input[aria-invalid="true"] { border-color: var(--tomato); }
+.count__table .field-error { display: block; color: #ff9b87; font-size: 0.78rem; margin-top: 2px; max-width: 12em; }
+.count__table tr.is-unsaved th { color: var(--amber); }
+.count__status { display: inline-block; padding: 2px 8px; border-radius: 999px; font-size: 0.75rem; white-space: nowrap; background: var(--ink-3); }
+.count__status--expiring { background: var(--amber); color: #2b1a06; }
+.count__status--low { background: var(--tomato); color: #fff; }
+.sr-only { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; border: 0; }
 .feed { list-style: none; margin: 0; padding: 0; display: grid; gap: 10px; }
 .msg { position: relative; display: grid; gap: 2px; padding: 10px 14px; border-radius: 14px; background: var(--ink-3); animation: slide-in 0.4s ease-out both; }
 .msg__from { font-size: 0.8rem; font-weight: 700; color: var(--moon-dim); }

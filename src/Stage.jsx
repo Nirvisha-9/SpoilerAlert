@@ -1,15 +1,20 @@
 import { useEffect, useRef, useState } from 'react';
-import { useLive, api } from './live.js';
+import { useLive, api, getJSON } from './live.js';
 import { glyph } from './ingredients.js';
 import { sfx } from './sfx.js';
 import MenuCard from './MenuCard.jsx';
 
 const LOOP = new URLSearchParams(window.location.search).has('loop');
+const isTyping = (el) => Boolean(el && (['INPUT', 'TEXTAREA', 'SELECT'].includes(el.tagName) || el.isContentEditable));
 const NIGHT = ['open', 'closing', 'pantry', 'huddle', 'chef'];
 
 export default function Stage() {
   const [stamp, setStamp] = useState(null);
   const [error, setError] = useState('');
+  const [inventory, setInventory] = useState(null); // tonight's count from /api/inventory
+  const [pending, setPending] = useState({});       // unsaved edits: name -> { stock?, daysLeft? } as typed
+  const [fieldErrors, setFieldErrors] = useState({}); // "name|field" -> message
+  const [saving, setSaving] = useState(false);
   const { state, connected } = useLive((fx) => {
     if (fx.type === 'blocked') { sfx.stamp(); setStamp(fx.id); }
     if (fx.type === 'approved') sfx.ok();
@@ -17,8 +22,33 @@ export default function Stage() {
     if (fx.type === 'order') sfx.ticket();
   });
 
+  // Load the count whenever a new night opens (first load, or after Start over).
+  useEffect(() => {
+    if (state?.phase !== 'open') return;
+    getJSON('inventory').then((inv) => { setInventory(inv); setPending({}); setFieldErrors({}); }).catch((e) => setError(e.message));
+  }, [state?.phase, state?.seed, state?.date]);
+
+  // Saves unsaved edits. Returns false (and shows why) if anything is invalid.
+  const saveCount = async () => {
+    const items = Object.entries(pending).map(([name, v]) => ({ name, ...v }));
+    if (!items.length) return true;
+    const errs = checkEdits(items);
+    setFieldErrors(errs);
+    if (Object.keys(errs).length) { setError('Fix the highlighted counts first.'); return false; }
+    setSaving(true);
+    try {
+      setInventory(await api('inventory', { items }));
+      setPending({});
+      return true;
+    } catch (e) {
+      setError(e.message);
+      return false;
+    } finally { setSaving(false); }
+  };
+
   const start = async () => {
     setError('');
+    if (!(await saveCount())) return; // the agents run on the edited count
     sfx.chime();
     try { await api('night/start', { auto: LOOP }); } catch (e) { setError(e.message); }
   };
@@ -27,7 +57,7 @@ export default function Stage() {
   // Keyboard: space closes the shop, R resets. Handy on stage.
   useEffect(() => {
     const onKey = (e) => {
-      if (e.target.tagName === 'INPUT') return;
+      if (isTyping(e.target) || e.metaKey || e.ctrlKey || e.altKey) return;
       if (e.code === 'Space' && state?.phase === 'open') { e.preventDefault(); start(); }
       if (e.key === 'r' || e.key === 'R') reset();
     };
@@ -58,7 +88,9 @@ export default function Stage() {
       {night ? (
         <div className="night">
           <Stockroom state={state} />
-          <Huddle messages={state.messages} stamp={stamp} />
+          {state.phase === 'open' && !LOOP
+            ? <ClosingCount inventory={inventory} pending={pending} setPending={setPending} errors={fieldErrors} setErrors={setFieldErrors} onSave={async () => { setError(''); await saveCount(); }} saving={saving} />
+            : <Huddle messages={state.messages} stamp={stamp} />}
           {state.phase === 'chef' && <ChefPhone proposals={state.proposals} onError={setError} />}
         </div>
       ) : (
@@ -117,6 +149,75 @@ function Stockroom({ state }) {
   );
 }
 
+// Same limits as the server, so mistakes show up before saving.
+function checkEdits(items) {
+  const errs = {};
+  for (const it of items) {
+    if (it.stock !== undefined && (it.stock === '' || !(Number(it.stock) >= 0))) errs[`${it.name}|stock`] = 'Stock must be 0 or more grams.';
+    if (it.daysLeft !== undefined) {
+      const d = Number(it.daysLeft);
+      if (it.daysLeft === '' || !Number.isInteger(d) || d < 0 || d > 30) errs[`${it.name}|daysLeft`] = 'Days left must be a whole number from 0 to 30.';
+    }
+  }
+  return errs;
+}
+
+const STATUS_LABEL = { expiring: 'Expires soon', low: 'Low', ok: 'OK' };
+
+function ClosingCount({ inventory, pending, setPending, errors, setErrors, onSave, saving }) {
+  const [query, setQuery] = useState('');
+  if (!inventory) return <section className="count" aria-label="Closing count"><h2 className="count__title">Closing count</h2><p className="count__hint">Loading tonight's stock…</p></section>;
+  const edit = (name, field, value) => {
+    setPending((p) => ({ ...p, [name]: { ...p[name], [field]: value } }));
+    setErrors((e) => { const n = { ...e }; delete n[`${name}|${field}`]; return n; });
+  };
+  const q = query.trim().toLowerCase();
+  const rows = [...inventory.items].sort((a, b) => a.name.localeCompare(b.name)).filter((i) => !q || i.name.toLowerCase().includes(q));
+  const unsaved = Object.keys(pending).length;
+  return (
+    <section className="count" aria-label="Closing count">
+      <div className="count__head">
+        <h2 className="count__title">Closing count</h2>
+        <button className="btn btn--small btn--primary" onClick={onSave} disabled={!unsaved || saving}>{saving ? 'Saving…' : unsaved ? `Save ${unsaved} change${unsaved > 1 ? 's' : ''}` : 'Saved'}</button>
+      </div>
+      <p className="count__hint">Correct tonight's stock before you close. The agents use this count.</p>
+      <label className="count__search">
+        <span className="sr-only">Find an ingredient</span>
+        <input type="search" placeholder="Find an ingredient" value={query} onChange={(e) => setQuery(e.target.value)} />
+      </label>
+      <table className="count__table">
+        <thead><tr><th scope="col">Ingredient</th><th scope="col">Stock (g)</th><th scope="col">Days left</th><th scope="col">Status</th></tr></thead>
+        <tbody>
+          {rows.map((i) => {
+            const p = pending[i.name] || {};
+            const stockErr = errors[`${i.name}|stock`];
+            const daysErr = errors[`${i.name}|daysLeft`];
+            const id = i.name.replace(/\W+/g, '-').toLowerCase();
+            return (
+              <tr key={i.name} className={pending[i.name] ? 'is-unsaved' : ''}>
+                <th scope="row">{i.name}</th>
+                <td>
+                  <input id={`stock-${id}`} type="number" inputMode="numeric" min="0" step="10" aria-label={`${i.name} stock in grams`}
+                    aria-invalid={Boolean(stockErr)} aria-describedby={stockErr ? `stock-${id}-err` : undefined}
+                    value={p.stock ?? i.stock} onChange={(e) => edit(i.name, 'stock', e.target.value)} />
+                  {stockErr && <span className="field-error" id={`stock-${id}-err`}>{stockErr}</span>}
+                </td>
+                <td>
+                  <input id={`days-${id}`} type="number" inputMode="numeric" min="0" max="30" step="1" aria-label={`${i.name} days until expiry`}
+                    aria-invalid={Boolean(daysErr)} aria-describedby={daysErr ? `days-${id}-err` : undefined}
+                    value={p.daysLeft ?? i.daysLeft} onChange={(e) => edit(i.name, 'daysLeft', e.target.value)} />
+                  {daysErr && <span className="field-error" id={`days-${id}-err`}>{daysErr}</span>}
+                </td>
+                <td><span className={`count__status count__status--${i.status}`}>{pending[i.name] ? 'Unsaved' : STATUS_LABEL[i.status]}</span></td>
+              </tr>
+            );
+          })}
+        </tbody>
+      </table>
+    </section>
+  );
+}
+
 const WHO = {
   '@pantry': 'pantry', '@chef-assistant': 'chef-assistant', '@margin-critic': 'critic', Chef: 'chef',
 };
@@ -148,12 +249,12 @@ function ChefPhone({ proposals, onError }) {
   const approve = (id) => api('approve', { id }).catch((e) => onError(e.message));
   return (
     <aside className="phone" aria-label="Chef's phone">
-      <p className="phone__app">WhatsApp · Spoiler Alert</p>
+      <p className="phone__app">Chef's phone</p>
       <p className="phone__bubble">Chef, these passed the critic. Which one goes on tomorrow's board?</p>
       {ready.map((p) => (
         <div className="phone__option" key={p.id}>
           <strong>{p.name}</strong>
-          <span>${p.price.toFixed(2)} · {p.review.foodCostPct}% food cost</span>
+          <span>${p.price.toFixed(2)} · ${p.review.profit.toFixed(2)} profit per {p.review.unit || 'pizza'}</span>
           <button className="btn btn--small" onClick={() => approve(p.id)}>Approve</button>
         </div>
       ))}

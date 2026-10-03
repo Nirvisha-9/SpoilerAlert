@@ -32,3 +32,10 @@ export async function api(path, body) {
   if (!res.ok) throw new Error(data.error || 'Something went wrong. Try again.');
   return data;
 }
+
+export async function getJSON(path) {
+  const res = await fetch(`/api/${path}`);
+  const data = await res.json().catch(() => ({}));
+  if (!res.ok) throw new Error(data.error || 'Something went wrong. Try again.');
+  return data;
+}

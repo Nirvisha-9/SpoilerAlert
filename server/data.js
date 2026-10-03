@@ -51,6 +51,10 @@ const normDate = (d) => {
   return m ? `${m[3]}-${m[1].padStart(2, '0')}-${m[2].padStart(2, '0')}` : d;
 };
 
+// expiring: expires by tomorrow with stock left to waste. low: under 60% of a day's use.
+export const statusOf = (it) => (it.daysLeft <= 1 && it.stock > 0 ? 'expiring' : it.stock < it.dailyUse * 0.6 ? 'low' : 'ok');
+export { addDays };
+
 export const fmtQty = (g) => (g >= 1000 ? `${(g / 1000).toFixed(1)} kg` : `${Math.round(g)} g`);
 
 // Fallback shelf life (days) and cost (USD per kg) for ingredients missing from the JSON files,
@@ -294,7 +298,7 @@ export function buildSnapshot() {
         deliveredOn,
         expiresOn: addDays(deliveredOn, it.shelfDays),
         daysLeft: it.shelfDays - it.age,
-        status: it.shelfDays - it.age <= 1 ? 'expiring' : it.stock < it.dailyUse * 0.6 ? 'low' : 'ok',
+        status: statusOf({ ...it, daysLeft: it.shelfDays - it.age }),
       };
     })
     .sort((a, b) => b.dailyUse - a.dailyUse);
