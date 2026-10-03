@@ -96,7 +96,7 @@ async function runNight(id, auto) {
 
   for (const p of state.proposals) {
     if (!alive()) return;
-    p.review = reviewSpecial(p, snapshot.inventory);
+    p.review = reviewSpecial(p, snapshot.inventory, snapshot.menu);
     say('@margin-critic', p.review.text, p.review.approved ? 'approved' : 'blocked');
     push({ type: p.review.approved ? 'approved' : 'blocked', id: p.id });
     await sleep(1500);

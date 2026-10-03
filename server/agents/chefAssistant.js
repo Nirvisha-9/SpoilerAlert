@@ -17,8 +17,9 @@ Our recipes (only use these, no new ingredients):
 ${menu.map((m) => `- ${m.id}: ${m.name} [$${m.price}] ${m.ingredients.map((x) => (m.grams ? `${x} ${m.grams[x]} g` : x)).join(', ')}`).join('\n')}
 
 Propose 2 specials for tomorrow built on our recipes that use the most expiring stock.
+Price each special at its recipe's menu price shown in [$...]. Don't discount: a special that earns less than a normal dish gets blocked.
 Reply with ONLY a JSON array, no prose:
-[{"recipeId":"...","name":"catchy special name","description":"one appetizing sentence","price":16.5,"pitch":"one sentence to the chef on why"}]`;
+[{"recipeId":"...","name":"catchy special name","description":"one appetizing sentence","price":<the recipe's menu price>,"pitch":"one sentence to the chef on why"}]`;
 }
 
 function fromLLM(text, menu, expiringNames) {

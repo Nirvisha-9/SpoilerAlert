@@ -5,3 +5,4 @@ dist
 !.env.example
 data/memory.json
 .DS_Store
+USE_ZOOWORK=1

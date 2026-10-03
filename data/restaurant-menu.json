@@ -4,13 +4,39 @@
     "prices are the \"from\" (smallest size) prices on its delivery-app listing.",
     "Ingredients marked \"approximate\": true are not listed on the menu; we added typical ones.",
     "An item marked \"approximate\": true has no listed ingredients at all.",
-    "Every \"grams\" value is an approximate portion per dish, not a published recipe.",
+    "Every \"grams\" value is an approximate portion per dish, not a published recipe. Pizza grams are for a small (10-inch) pizza, the size the listed price buys.",
     "mavenCategory is the closest Maven Analytics \"Pizza Place Sales\" category; we borrow its sales pattern (by hour and day of week).",
     "Menu text only. Do not add the restaurant's logo or food photos to this app."
   ],
   "restaurant": {
     "name": "Tandoori Pizza",
     "city": "San Jose, CA"
+  },
+  "pizzaSizes": {
+    "_comment": "Specialty pizza prices by size on the delivery app, checked by the team on 2026-10-03. Inches are assumed industry-standard sizes, not published by the restaurant.",
+    "sizes": [
+      {
+        "size": "small",
+        "inches": 10,
+        "price": 28.59
+      },
+      {
+        "size": "medium",
+        "inches": 12,
+        "price": 36.3
+      },
+      {
+        "size": "large",
+        "inches": 14,
+        "price": 42.89
+      },
+      {
+        "size": "xl",
+        "inches": 16,
+        "price": 55.89
+      }
+    ],
+    "menuPriceIs": "small"
   },
   "items": [
     {
@@ -24,40 +50,40 @@
       "ingredients": [
         {
           "name": "Pizza Dough",
-          "grams": 300,
+          "grams": 240,
           "approximate": true
         },
         {
           "name": "Spicy Curry Sauce",
-          "grams": 100
+          "grams": 85
         },
         {
           "name": "Mozzarella",
-          "grams": 140
+          "grams": 112
         },
         {
           "name": "Bell Peppers",
-          "grams": 40
+          "grams": 28
         },
         {
           "name": "Red Onions",
-          "grams": 35
+          "grams": 24
         },
         {
           "name": "Diced Tomatoes",
-          "grams": 45
+          "grams": 31
         },
         {
           "name": "Marinated Paneer",
-          "grams": 110
+          "grams": 77
         },
         {
           "name": "Green Onions",
-          "grams": 10
+          "grams": 7
         },
         {
           "name": "Cilantro",
-          "grams": 5
+          "grams": 4
         }
       ]
     },
@@ -72,37 +98,37 @@
       "ingredients": [
         {
           "name": "Pizza Dough",
-          "grams": 300,
+          "grams": 240,
           "approximate": true
         },
         {
           "name": "Makhni Sauce",
-          "grams": 100
+          "grams": 85
         },
         {
           "name": "Mozzarella",
-          "grams": 140,
+          "grams": 112,
           "approximate": true
         },
         {
           "name": "Bell Peppers",
-          "grams": 40
+          "grams": 28
         },
         {
           "name": "Red Onions",
-          "grams": 35
+          "grams": 24
         },
         {
           "name": "Diced Tomatoes",
-          "grams": 45
+          "grams": 31
         },
         {
           "name": "Marinated Paneer",
-          "grams": 110
+          "grams": 77
         },
         {
           "name": "Cilantro",
-          "grams": 5
+          "grams": 4
         }
       ]
     },
@@ -117,40 +143,40 @@
       "ingredients": [
         {
           "name": "Pizza Dough",
-          "grams": 300,
+          "grams": 240,
           "approximate": true
         },
         {
           "name": "Spicy Curry Sauce",
-          "grams": 100
+          "grams": 85
         },
         {
           "name": "Mozzarella",
-          "grams": 140
+          "grams": 112
         },
         {
           "name": "Mushrooms",
-          "grams": 40
+          "grams": 28
         },
         {
           "name": "Bell Peppers",
-          "grams": 40
+          "grams": 28
         },
         {
           "name": "Olives",
-          "grams": 25
+          "grams": 18
         },
         {
           "name": "Red Onions",
-          "grams": 35
+          "grams": 24
         },
         {
           "name": "Diced Tomatoes",
-          "grams": 45
+          "grams": 31
         },
         {
           "name": "Cilantro",
-          "grams": 5
+          "grams": 4
         }
       ]
     },
@@ -165,44 +191,44 @@
       "ingredients": [
         {
           "name": "Pizza Dough",
-          "grams": 300,
+          "grams": 240,
           "approximate": true
         },
         {
           "name": "Red Sauce",
-          "grams": 100
+          "grams": 85
         },
         {
           "name": "Mozzarella",
-          "grams": 140
+          "grams": 112
         },
         {
           "name": "Mushrooms",
-          "grams": 40
+          "grams": 28
         },
         {
           "name": "Bell Peppers",
-          "grams": 40
+          "grams": 28
         },
         {
           "name": "Olives",
-          "grams": 25
+          "grams": 18
         },
         {
           "name": "Red Onions",
-          "grams": 35
+          "grams": 24
         },
         {
           "name": "Diced Tomatoes",
-          "grams": 45
+          "grams": 31
         },
         {
           "name": "Ginger",
-          "grams": 6
+          "grams": 4
         },
         {
           "name": "Green Chili",
-          "grams": 8
+          "grams": 6
         }
       ]
     },
@@ -217,28 +243,28 @@
       "ingredients": [
         {
           "name": "Pizza Dough",
-          "grams": 300,
+          "grams": 240,
           "approximate": true
         },
         {
           "name": "Creamy Garlic Sauce",
-          "grams": 90
+          "grams": 76
         },
         {
           "name": "Mozzarella",
-          "grams": 140
+          "grams": 112
         },
         {
           "name": "Red Onions",
-          "grams": 35
+          "grams": 24
         },
         {
           "name": "Diced Tomatoes",
-          "grams": 45
+          "grams": 31
         },
         {
           "name": "Cauliflower",
-          "grams": 120
+          "grams": 84
         }
       ]
     },
@@ -253,32 +279,32 @@
       "ingredients": [
         {
           "name": "Pizza Dough",
-          "grams": 300,
+          "grams": 240,
           "approximate": true
         },
         {
           "name": "Malai Sauce",
-          "grams": 100
+          "grams": 85
         },
         {
           "name": "Mozzarella",
-          "grams": 140
+          "grams": 112
         },
         {
           "name": "Bell Peppers",
-          "grams": 40
+          "grams": 28
         },
         {
           "name": "Red Onions",
-          "grams": 35
+          "grams": 24
         },
         {
           "name": "Diced Tomatoes",
-          "grams": 45
+          "grams": 31
         },
         {
           "name": "Marinated Paneer",
-          "grams": 110
+          "grams": 77
         }
       ]
     },
@@ -293,37 +319,37 @@
       "ingredients": [
         {
           "name": "Pizza Dough",
-          "grams": 300,
+          "grams": 240,
           "approximate": true
         },
         {
           "name": "Makhni Sauce",
-          "grams": 100
+          "grams": 85
         },
         {
           "name": "Mozzarella",
-          "grams": 140
+          "grams": 112
         },
         {
           "name": "Bell Peppers",
-          "grams": 40
+          "grams": 28
         },
         {
           "name": "Red Onions",
-          "grams": 35
+          "grams": 24
         },
         {
           "name": "Diced Tomatoes",
-          "grams": 45
+          "grams": 31
         },
         {
           "name": "Butter Chicken",
-          "grams": 120,
+          "grams": 84,
           "approximate": true
         },
         {
           "name": "Cilantro",
-          "grams": 5
+          "grams": 4
         }
       ]
     },
@@ -338,40 +364,40 @@
       "ingredients": [
         {
           "name": "Pizza Dough",
-          "grams": 300,
+          "grams": 240,
           "approximate": true
         },
         {
           "name": "Creamy Garlic Sauce",
-          "grams": 90
+          "grams": 76
         },
         {
           "name": "Mozzarella",
-          "grams": 140
+          "grams": 112
         },
         {
           "name": "Bell Peppers",
-          "grams": 40
+          "grams": 28
         },
         {
           "name": "Red Onions",
-          "grams": 35
+          "grams": 24
         },
         {
           "name": "Diced Tomatoes",
-          "grams": 45
+          "grams": 31
         },
         {
           "name": "Tandoori Chicken",
-          "grams": 120
+          "grams": 84
         },
         {
           "name": "Green Onions",
-          "grams": 10
+          "grams": 7
         },
         {
           "name": "Cilantro",
-          "grams": 5
+          "grams": 4
         }
       ]
     },
@@ -386,36 +412,36 @@
       "ingredients": [
         {
           "name": "Pizza Dough",
-          "grams": 300,
+          "grams": 240,
           "approximate": true
         },
         {
           "name": "Creamy Garlic Sauce",
-          "grams": 90
+          "grams": 76
         },
         {
           "name": "Mozzarella",
-          "grams": 140
+          "grams": 112
         },
         {
           "name": "Red Onions",
-          "grams": 35
+          "grams": 24
         },
         {
           "name": "Diced Tomatoes",
-          "grams": 45
+          "grams": 31
         },
         {
           "name": "Chicken Tikka",
-          "grams": 120
+          "grams": 84
         },
         {
           "name": "Green Onions",
-          "grams": 10
+          "grams": 7
         },
         {
           "name": "Cilantro",
-          "grams": 5
+          "grams": 4
         }
       ]
     },
@@ -430,40 +456,40 @@
       "ingredients": [
         {
           "name": "Pizza Dough",
-          "grams": 300,
+          "grams": 240,
           "approximate": true
         },
         {
           "name": "Spicy Curry Sauce",
-          "grams": 100
+          "grams": 85
         },
         {
           "name": "Mozzarella",
-          "grams": 140
+          "grams": 112
         },
         {
           "name": "Bell Peppers",
-          "grams": 40
+          "grams": 28
         },
         {
           "name": "Red Onions",
-          "grams": 35
+          "grams": 24
         },
         {
           "name": "Diced Tomatoes",
-          "grams": 45
+          "grams": 31
         },
         {
           "name": "Curry Chicken",
-          "grams": 120
+          "grams": 84
         },
         {
           "name": "Green Onions",
-          "grams": 10
+          "grams": 7
         },
         {
           "name": "Cilantro",
-          "grams": 5
+          "grams": 4
         }
       ]
     },
@@ -478,32 +504,32 @@
       "ingredients": [
         {
           "name": "Pizza Dough",
-          "grams": 300,
+          "grams": 240,
           "approximate": true
         },
         {
           "name": "Malai Sauce",
-          "grams": 100
+          "grams": 85
         },
         {
           "name": "Mozzarella",
-          "grams": 140
+          "grams": 112
         },
         {
           "name": "Bell Peppers",
-          "grams": 40
+          "grams": 28
         },
         {
           "name": "Red Onions",
-          "grams": 35
+          "grams": 24
         },
         {
           "name": "Diced Tomatoes",
-          "grams": 45
+          "grams": 31
         },
         {
           "name": "Malai Chicken",
-          "grams": 120
+          "grams": 84
         }
       ]
     },
@@ -518,28 +544,28 @@
       "ingredients": [
         {
           "name": "Pizza Dough",
-          "grams": 300,
+          "grams": 240,
           "approximate": true
         },
         {
           "name": "Creamy Garlic Sauce",
-          "grams": 90
+          "grams": 76
         },
         {
           "name": "Mozzarella",
-          "grams": 140
+          "grams": 112
         },
         {
           "name": "Red Onions",
-          "grams": 35
+          "grams": 24
         },
         {
           "name": "Diced Tomatoes",
-          "grams": 45
+          "grams": 31
         },
         {
           "name": "Achari Chicken",
-          "grams": 120
+          "grams": 84
         }
       ]
     },
@@ -554,24 +580,24 @@
       "ingredients": [
         {
           "name": "Pizza Dough",
-          "grams": 300,
+          "grams": 240,
           "approximate": true
         },
         {
           "name": "Spicy BBQ Sauce",
-          "grams": 90
+          "grams": 76
         },
         {
           "name": "Mozzarella",
-          "grams": 140
+          "grams": 112
         },
         {
           "name": "Red Onions",
-          "grams": 35
+          "grams": 24
         },
         {
           "name": "Tandoori BBQ Chicken",
-          "grams": 130
+          "grams": 91
         }
       ]
     },
@@ -586,56 +612,56 @@
       "ingredients": [
         {
           "name": "Pizza Dough",
-          "grams": 300,
+          "grams": 240,
           "approximate": true
         },
         {
           "name": "Creamy Garlic Sauce",
-          "grams": 90
+          "grams": 76
         },
         {
           "name": "Mozzarella",
-          "grams": 140
+          "grams": 112
         },
         {
           "name": "Mushrooms",
-          "grams": 30
+          "grams": 21
         },
         {
           "name": "Olives",
-          "grams": 20
+          "grams": 14
         },
         {
           "name": "Bell Peppers",
-          "grams": 30
+          "grams": 21
         },
         {
           "name": "Onions",
-          "grams": 30
+          "grams": 21
         },
         {
           "name": "Diced Tomatoes",
-          "grams": 35
+          "grams": 24
         },
         {
           "name": "Garlic Chicken",
-          "grams": 120
+          "grams": 84
         },
         {
           "name": "Green Chili",
-          "grams": 8
+          "grams": 6
         },
         {
           "name": "Ginger",
-          "grams": 6
+          "grams": 4
         },
         {
           "name": "Garlic",
-          "grams": 6
+          "grams": 4
         },
         {
           "name": "Cilantro",
-          "grams": 5
+          "grams": 4
         }
       ]
     },
@@ -650,24 +676,24 @@
       "ingredients": [
         {
           "name": "Pizza Dough",
-          "grams": 300,
+          "grams": 240,
           "approximate": true
         },
         {
           "name": "Creamy Pesto Sauce",
-          "grams": 80
+          "grams": 68
         },
         {
           "name": "Mozzarella",
-          "grams": 140
+          "grams": 112
         },
         {
           "name": "Onions",
-          "grams": 35
+          "grams": 24
         },
         {
           "name": "Pesto Chicken",
-          "grams": 130
+          "grams": 91
         }
       ]
     },
@@ -682,32 +708,32 @@
       "ingredients": [
         {
           "name": "Pizza Dough",
-          "grams": 300,
+          "grams": 240,
           "approximate": true
         },
         {
           "name": "Creamy Garlic Sauce",
-          "grams": 90
+          "grams": 76
         },
         {
           "name": "Mozzarella",
-          "grams": 140
+          "grams": 112
         },
         {
           "name": "Onions",
-          "grams": 35
+          "grams": 24
         },
         {
           "name": "Spiced Ground Lamb",
-          "grams": 110
+          "grams": 77
         },
         {
           "name": "Cilantro",
-          "grams": 5
+          "grams": 4
         },
         {
           "name": "Mint Sauce",
-          "grams": 30
+          "grams": 21
         }
       ]
     },
@@ -722,33 +748,33 @@
       "ingredients": [
         {
           "name": "Pizza Dough",
-          "grams": 300,
+          "grams": 240,
           "approximate": true
         },
         {
           "name": "Creamy Garlic Sauce",
-          "grams": 90
+          "grams": 76
         },
         {
           "name": "Mozzarella",
-          "grams": 140,
+          "grams": 112,
           "approximate": true
         },
         {
           "name": "Onions",
-          "grams": 35
+          "grams": 24
         },
         {
           "name": "Spiced Ground Chicken",
-          "grams": 110
+          "grams": 77
         },
         {
           "name": "Cilantro",
-          "grams": 5
+          "grams": 4
         },
         {
           "name": "Mint Sauce",
-          "grams": 30
+          "grams": 21
         }
       ]
     },
@@ -763,28 +789,28 @@
       "ingredients": [
         {
           "name": "Pizza Dough",
-          "grams": 300,
+          "grams": 240,
           "approximate": true
         },
         {
           "name": "Tangy Sauce",
-          "grams": 60
+          "grams": 51
         },
         {
           "name": "Mozzarella",
-          "grams": 140
+          "grams": 112
         },
         {
           "name": "Onions",
-          "grams": 35
+          "grams": 24
         },
         {
           "name": "Masala Potatoes",
-          "grams": 120
+          "grams": 84
         },
         {
           "name": "Cilantro",
-          "grams": 5
+          "grams": 4
         }
       ]
     },
@@ -799,42 +825,42 @@
       "ingredients": [
         {
           "name": "Pizza Dough",
-          "grams": 300,
+          "grams": 240,
           "approximate": true
         },
         {
           "name": "Red Sauce",
-          "grams": 100,
+          "grams": 85,
           "approximate": true
         },
         {
           "name": "Mozzarella",
-          "grams": 140,
+          "grams": 112,
           "approximate": true
         },
         {
           "name": "Mushrooms",
-          "grams": 40
+          "grams": 28
         },
         {
           "name": "Olives",
-          "grams": 25
+          "grams": 18
         },
         {
           "name": "Bell Peppers",
-          "grams": 40
+          "grams": 28
         },
         {
           "name": "Diced Tomatoes",
-          "grams": 45
+          "grams": 31
         },
         {
           "name": "Red Onions",
-          "grams": 35
+          "grams": 24
         },
         {
           "name": "Artichoke Hearts",
-          "grams": 50
+          "grams": 35
         }
       ]
     },
@@ -849,37 +875,37 @@
       "ingredients": [
         {
           "name": "Pizza Dough",
-          "grams": 300,
+          "grams": 240,
           "approximate": true
         },
         {
           "name": "Creamy Garlic Sauce",
-          "grams": 90
+          "grams": 76
         },
         {
           "name": "Mozzarella",
-          "grams": 140,
+          "grams": 112,
           "approximate": true
         },
         {
           "name": "Pepperoni",
-          "grams": 50
+          "grams": 35
         },
         {
           "name": "Italian Sausage",
-          "grams": 60
+          "grams": 42
         },
         {
           "name": "Mushrooms",
-          "grams": 40
+          "grams": 28
         },
         {
           "name": "Olives",
-          "grams": 25
+          "grams": 18
         },
         {
           "name": "Green Onions",
-          "grams": 10
+          "grams": 7
         }
       ]
     },
@@ -894,54 +920,54 @@
       "ingredients": [
         {
           "name": "Pizza Dough",
-          "grams": 300,
+          "grams": 240,
           "approximate": true
         },
         {
           "name": "Red Sauce",
-          "grams": 100,
+          "grams": 85,
           "approximate": true
         },
         {
           "name": "Mozzarella",
-          "grams": 140,
+          "grams": 112,
           "approximate": true
         },
         {
           "name": "Pepperoni",
-          "grams": 40
+          "grams": 28
         },
         {
           "name": "Salami",
-          "grams": 35
+          "grams": 24
         },
         {
           "name": "Beef",
-          "grams": 40
+          "grams": 28
         },
         {
           "name": "Italian Sausage",
-          "grams": 40
+          "grams": 28
         },
         {
           "name": "Mushrooms",
-          "grams": 30
+          "grams": 21
         },
         {
           "name": "Olives",
-          "grams": 20
+          "grams": 14
         },
         {
           "name": "Diced Tomatoes",
-          "grams": 35
+          "grams": 24
         },
         {
           "name": "Bell Peppers",
-          "grams": 30
+          "grams": 21
         },
         {
           "name": "Red Onions",
-          "grams": 30
+          "grams": 21
         }
       ]
     },
@@ -956,37 +982,37 @@
       "ingredients": [
         {
           "name": "Pizza Dough",
-          "grams": 300,
+          "grams": 240,
           "approximate": true
         },
         {
           "name": "Creamy Garlic Sauce",
-          "grams": 90
+          "grams": 76
         },
         {
           "name": "Mozzarella",
-          "grams": 140,
+          "grams": 112,
           "approximate": true
         },
         {
           "name": "Ham",
-          "grams": 50
+          "grams": 35
         },
         {
           "name": "Bacon",
-          "grams": 40
+          "grams": 28
         },
         {
           "name": "Mushrooms",
-          "grams": 40
+          "grams": 28
         },
         {
           "name": "Olives",
-          "grams": 25
+          "grams": 18
         },
         {
           "name": "Green Onions",
-          "grams": 10
+          "grams": 7
         }
       ]
     },
@@ -1001,12 +1027,12 @@
       "ingredients": [
         {
           "name": "Pizza Dough",
-          "grams": 300,
+          "grams": 240,
           "approximate": true
         },
         {
           "name": "Red Sauce",
-          "grams": 100
+          "grams": 85
         },
         {
           "name": "Oregano",
@@ -1014,19 +1040,19 @@
         },
         {
           "name": "Basil",
-          "grams": 4
+          "grams": 3
         },
         {
           "name": "Diced Tomatoes",
-          "grams": 60
+          "grams": 42
         },
         {
           "name": "Olive Oil",
-          "grams": 8
+          "grams": 6
         },
         {
           "name": "Mozzarella",
-          "grams": 160
+          "grams": 128
         }
       ]
     },
@@ -1041,38 +1067,38 @@
       "ingredients": [
         {
           "name": "Pizza Dough",
-          "grams": 300,
+          "grams": 240,
           "approximate": true
         },
         {
           "name": "Red Sauce",
-          "grams": 100,
+          "grams": 85,
           "approximate": true
         },
         {
           "name": "Mozzarella",
-          "grams": 140,
+          "grams": 112,
           "approximate": true
         },
         {
           "name": "Ham",
-          "grams": 40
+          "grams": 28
         },
         {
           "name": "Salami",
-          "grams": 35
+          "grams": 24
         },
         {
           "name": "Pepperoni",
-          "grams": 40
+          "grams": 28
         },
         {
           "name": "Beef",
-          "grams": 45
+          "grams": 31
         },
         {
           "name": "Italian Sausage",
-          "grams": 50
+          "grams": 35
         }
       ]
     },
@@ -1087,20 +1113,20 @@
       "ingredients": [
         {
           "name": "Pizza Dough",
-          "grams": 300,
+          "grams": 240,
           "approximate": true
         },
         {
           "name": "Red Sauce",
-          "grams": 100
+          "grams": 85
         },
         {
           "name": "Mozzarella",
-          "grams": 140
+          "grams": 112
         },
         {
           "name": "Pepperoni",
-          "grams": 70
+          "grams": 49
         }
       ]
     },
@@ -1115,33 +1141,33 @@
       "ingredients": [
         {
           "name": "Pizza Dough",
-          "grams": 300,
+          "grams": 240,
           "approximate": true
         },
         {
           "name": "Creamy Garlic Sauce",
-          "grams": 90
+          "grams": 76
         },
         {
           "name": "Mozzarella",
-          "grams": 140,
+          "grams": 112,
           "approximate": true
         },
         {
           "name": "Grilled Chicken",
-          "grams": 110
+          "grams": 77
         },
         {
           "name": "Bacon",
-          "grams": 35
+          "grams": 24
         },
         {
           "name": "Diced Tomatoes",
-          "grams": 45
+          "grams": 31
         },
         {
           "name": "Green Onions",
-          "grams": 10
+          "grams": 7
         }
       ]
     },
@@ -1156,33 +1182,33 @@
       "ingredients": [
         {
           "name": "Pizza Dough",
-          "grams": 300,
+          "grams": 240,
           "approximate": true
         },
         {
           "name": "BBQ Sauce",
-          "grams": 90
+          "grams": 76
         },
         {
           "name": "Mozzarella",
-          "grams": 140,
+          "grams": 112,
           "approximate": true
         },
         {
           "name": "Grilled Chicken",
-          "grams": 110
+          "grams": 77
         },
         {
           "name": "Bacon",
-          "grams": 35
+          "grams": 24
         },
         {
           "name": "Red Onions",
-          "grams": 35
+          "grams": 24
         },
         {
           "name": "Pineapple",
-          "grams": 60
+          "grams": 42
         }
       ]
     },
@@ -1197,32 +1223,32 @@
       "ingredients": [
         {
           "name": "Pizza Dough",
-          "grams": 300,
+          "grams": 240,
           "approximate": true
         },
         {
           "name": "Creamy Garlic Sauce",
-          "grams": 90
+          "grams": 76
         },
         {
           "name": "Mozzarella",
-          "grams": 140
+          "grams": 112
         },
         {
           "name": "Red Onions",
-          "grams": 35
+          "grams": 24
         },
         {
           "name": "Diced Tomatoes",
-          "grams": 45
+          "grams": 31
         },
         {
           "name": "Buffalo Chicken",
-          "grams": 120
+          "grams": 84
         },
         {
           "name": "Cilantro",
-          "grams": 5,
+          "grams": 4,
           "approximate": true
         }
       ]
@@ -1238,26 +1264,26 @@
       "ingredients": [
         {
           "name": "Pizza Dough",
-          "grams": 300,
+          "grams": 240,
           "approximate": true
         },
         {
           "name": "Red Sauce",
-          "grams": 100,
+          "grams": 85,
           "approximate": true
         },
         {
           "name": "Mozzarella",
-          "grams": 140,
+          "grams": 112,
           "approximate": true
         },
         {
           "name": "Ham",
-          "grams": 70
+          "grams": 49
         },
         {
           "name": "Pineapple",
-          "grams": 80
+          "grams": 56
         }
       ]
     },
@@ -1273,17 +1299,17 @@
       "ingredients": [
         {
           "name": "Pizza Dough",
-          "grams": 300,
+          "grams": 240,
           "approximate": true
         },
         {
           "name": "Red Sauce",
-          "grams": 100,
+          "grams": 85,
           "approximate": true
         },
         {
           "name": "Mozzarella",
-          "grams": 180,
+          "grams": 144,
           "approximate": true
         }
       ]

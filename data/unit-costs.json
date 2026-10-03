@@ -1,80 +1,374 @@
 {
   "_comment": [
-    "SIMULATED wholesale cost per kg (USD), rough estimates for the food-cost check. Not real supplier prices."
+    "Estimated 2026 US foodservice distributor prices (broadline case prices, e.g. Sysco / US Foods / Restaurant Depot level),",
+    "converted to USD per gram as used on the dish (after trim and cooking yield). Estimates for the food-cost check, not supplier quotes.",
+    "usdPerLb is the as-used price per pound the per-gram value comes from; basis says what that price assumes."
   ],
-  "costPerKg": {
-    "Achari Chicken": 13,
-    "Achari Marinade": 8,
-    "Artichoke Hearts": 12,
-    "BBQ Sauce": 4.5,
-    "Bacon": 14,
-    "Basil": 30,
-    "Beef": 12,
-    "Bell Peppers": 4.5,
-    "Breadcrumbs": 4,
-    "Buffalo Chicken": 12.5,
-    "Buffalo Sauce": 6,
-    "Butter Chicken": 13,
-    "Caesar Dressing": 8,
-    "Candied Walnuts": 24,
-    "Carrots": 2.2,
-    "Cauliflower": 4.5,
-    "Chicken Tikka": 13,
-    "Chicken Wings": 7.5,
-    "Cilantro": 14,
-    "Cream Cheese": 8,
-    "Creamy Garlic Sauce": 6,
-    "Creamy Pesto Sauce": 18,
-    "Croutons": 9,
-    "Curry Chicken": 13,
-    "Diced Tomatoes": 4.5,
-    "Dried Cranberries": 11,
-    "Garlic": 9,
-    "Garlic Butter": 11,
-    "Garlic Chicken": 12.5,
-    "Ginger": 7,
-    "Green Chili": 7,
-    "Green Onions": 6,
-    "Grilled Chicken": 12,
-    "Ham": 11,
-    "Italian Sausage": 10,
-    "Jalapeños": 5,
-    "Makhni Sauce": 6.5,
-    "Malai Chicken": 13,
-    "Malai Sauce": 7,
-    "Mango Balsamic Dressing": 9,
-    "Marinara": 3.5,
-    "Marinated Paneer": 14,
-    "Masala Potatoes": 4,
-    "Masala Seasoning": 28,
-    "Mint Sauce": 10,
-    "Mixed Greens": 13,
-    "Mozzarella": 8.8,
-    "Mushrooms": 7,
-    "Olive Oil": 10,
-    "Olives": 9,
-    "Onions": 1.8,
-    "Oregano": 35,
-    "Parmesan": 18,
-    "Pepperoni": 14,
-    "Pesto Chicken": 13,
-    "Pineapple": 4,
-    "Pizza Dough": 1.6,
-    "Pomegranate Seeds": 16,
-    "Potatoes": 1.8,
-    "Red Onions": 2.2,
-    "Red Sauce": 3.5,
-    "Romaine Lettuce": 5,
-    "Salami": 16,
-    "Spiced Ground Chicken": 12,
-    "Spiced Ground Lamb": 20,
-    "Spicy BBQ Sauce": 5,
-    "Spicy Curry Sauce": 5,
-    "Strawberries": 9,
-    "Tandoori BBQ Chicken": 13,
-    "Tandoori Chicken": 13,
-    "Tandoori Marinade": 6,
-    "Tangy Sauce": 6,
-    "Wing Sauce": 6
+  "costPerGram": {
+    "Achari Chicken": {
+      "usdPerGram": 0.00926,
+      "usdPerLb": 4.2,
+      "basis": "boneless thigh ~$2.60/lb raw, about 72% cooked yield, plus marinade"
+    },
+    "Achari Marinade": {
+      "usdPerGram": 0.00617,
+      "usdPerLb": 2.8,
+      "basis": "house: pickle spices, mustard oil, yogurt"
+    },
+    "Artichoke Hearts": {
+      "usdPerGram": 0.00882,
+      "usdPerLb": 4.0,
+      "basis": "quartered, #10 cans, drained weight"
+    },
+    "BBQ Sauce": {
+      "usdPerGram": 0.00375,
+      "usdPerLb": 1.7,
+      "basis": "1 gal jugs"
+    },
+    "Bacon": {
+      "usdPerGram": 0.01499,
+      "usdPerLb": 6.8,
+      "basis": "fully cooked bacon topping, 2 x 5 lb"
+    },
+    "Basil": {
+      "usdPerGram": 0.02646,
+      "usdPerLb": 12.0,
+      "basis": "fresh, 1 lb"
+    },
+    "Beef": {
+      "usdPerGram": 0.01058,
+      "usdPerLb": 4.8,
+      "basis": "fully cooked beef topping crumbles, 2 x 5 lb"
+    },
+    "Bell Peppers": {
+      "usdPerGram": 0.00375,
+      "usdPerLb": 1.7,
+      "basis": "green bell, 25 lb case, about 85% usable"
+    },
+    "Breadcrumbs": {
+      "usdPerGram": 0.00375,
+      "usdPerLb": 1.7,
+      "basis": "25 lb bag"
+    },
+    "Buffalo Chicken": {
+      "usdPerGram": 0.00926,
+      "usdPerLb": 4.2,
+      "basis": "boneless thigh ~$2.60/lb raw, about 72% cooked yield, plus buffalo sauce"
+    },
+    "Buffalo Sauce": {
+      "usdPerGram": 0.00507,
+      "usdPerLb": 2.3,
+      "basis": "1 gal jugs, cayenne pepper sauce and butter"
+    },
+    "Butter Chicken": {
+      "usdPerGram": 0.00948,
+      "usdPerLb": 4.3,
+      "basis": "boneless thigh ~$2.60/lb raw, about 72% cooked yield, plus marinade"
+    },
+    "Caesar Dressing": {
+      "usdPerGram": 0.00617,
+      "usdPerLb": 2.8,
+      "basis": "1 gal jugs"
+    },
+    "Candied Walnuts": {
+      "usdPerGram": 0.01874,
+      "usdPerLb": 8.5,
+      "basis": "2 lb bag"
+    },
+    "Carrots": {
+      "usdPerGram": 0.00254,
+      "usdPerLb": 1.15,
+      "basis": "shredded, 5 lb"
+    },
+    "Cauliflower": {
+      "usdPerGram": 0.00463,
+      "usdPerLb": 2.1,
+      "basis": "12-head case, about 60% florets"
+    },
+    "Chicken Tikka": {
+      "usdPerGram": 0.00904,
+      "usdPerLb": 4.1,
+      "basis": "boneless thigh ~$2.60/lb raw, about 72% cooked yield, plus marinade"
+    },
+    "Chicken Wings": {
+      "usdPerGram": 0.00639,
+      "usdPerLb": 2.9,
+      "basis": "jumbo wings, 40 lb case"
+    },
+    "Cilantro": {
+      "usdPerGram": 0.00705,
+      "usdPerLb": 3.2,
+      "basis": "60-bunch case, stems trimmed"
+    },
+    "Cream Cheese": {
+      "usdPerGram": 0.00639,
+      "usdPerLb": 2.9,
+      "basis": "3 lb loaf"
+    },
+    "Creamy Garlic Sauce": {
+      "usdPerGram": 0.00617,
+      "usdPerLb": 2.8,
+      "basis": "house-made: mayo/cream base, garlic"
+    },
+    "Creamy Pesto Sauce": {
+      "usdPerGram": 0.01433,
+      "usdPerLb": 6.5,
+      "basis": "basil pesto ~$9/lb, cut with cream"
+    },
+    "Croutons": {
+      "usdPerGram": 0.00661,
+      "usdPerLb": 3.0,
+      "basis": "10 lb"
+    },
+    "Curry Chicken": {
+      "usdPerGram": 0.00904,
+      "usdPerLb": 4.1,
+      "basis": "boneless thigh ~$2.60/lb raw, about 72% cooked yield, plus marinade"
+    },
+    "Diced Tomatoes": {
+      "usdPerGram": 0.00331,
+      "usdPerLb": 1.5,
+      "basis": "Roma, 25 lb case"
+    },
+    "Dried Cranberries": {
+      "usdPerGram": 0.00728,
+      "usdPerLb": 3.3,
+      "basis": "10 lb"
+    },
+    "Garlic": {
+      "usdPerGram": 0.00794,
+      "usdPerLb": 3.6,
+      "basis": "peeled, 5 lb jar"
+    },
+    "Garlic Butter": {
+      "usdPerGram": 0.00882,
+      "usdPerLb": 4.0,
+      "basis": "butter ~$3.80/lb, 36 lb case, plus garlic"
+    },
+    "Garlic Chicken": {
+      "usdPerGram": 0.00904,
+      "usdPerLb": 4.1,
+      "basis": "boneless thigh ~$2.60/lb raw, about 72% cooked yield, plus marinade"
+    },
+    "Ginger": {
+      "usdPerGram": 0.00507,
+      "usdPerLb": 2.3,
+      "basis": "30 lb case"
+    },
+    "Green Chili": {
+      "usdPerGram": 0.00485,
+      "usdPerLb": 2.2,
+      "basis": "serrano/Indian green chili, 10 lb"
+    },
+    "Green Onions": {
+      "usdPerGram": 0.00573,
+      "usdPerLb": 2.6,
+      "basis": "48-bunch case"
+    },
+    "Grilled Chicken": {
+      "usdPerGram": 0.01014,
+      "usdPerLb": 4.6,
+      "basis": "fully cooked grilled breast strips, 2 x 5 lb"
+    },
+    "Ham": {
+      "usdPerGram": 0.00816,
+      "usdPerLb": 3.7,
+      "basis": "diced, 2 x 5 lb"
+    },
+    "Italian Sausage": {
+      "usdPerGram": 0.0075,
+      "usdPerLb": 3.4,
+      "basis": "raw bulk Italian sausage, 2 x 5 lb"
+    },
+    "Jalapeños": {
+      "usdPerGram": 0.00309,
+      "usdPerLb": 1.4,
+      "basis": "fresh, 10 lb"
+    },
+    "Makhni Sauce": {
+      "usdPerGram": 0.00573,
+      "usdPerLb": 2.6,
+      "basis": "house-made: tomato, butter, cream, spices"
+    },
+    "Malai Chicken": {
+      "usdPerGram": 0.0097,
+      "usdPerLb": 4.4,
+      "basis": "boneless thigh ~$2.60/lb raw, about 72% cooked yield, plus cream marinade"
+    },
+    "Malai Sauce": {
+      "usdPerGram": 0.0075,
+      "usdPerLb": 3.4,
+      "basis": "house-made: cream, cashew, spices"
+    },
+    "Mango Balsamic Dressing": {
+      "usdPerGram": 0.00661,
+      "usdPerLb": 3.0,
+      "basis": "house: mango, balsamic, oil"
+    },
+    "Marinara": {
+      "usdPerGram": 0.00243,
+      "usdPerLb": 1.1,
+      "basis": "#10 cans, seasoned"
+    },
+    "Marinated Paneer": {
+      "usdPerGram": 0.01323,
+      "usdPerLb": 6.0,
+      "basis": "paneer ~$5.25/lb, 5 lb block, plus yogurt-spice marinade"
+    },
+    "Masala Potatoes": {
+      "usdPerGram": 0.00287,
+      "usdPerLb": 1.3,
+      "basis": "house: potatoes, oil, spices, cooked"
+    },
+    "Masala Seasoning": {
+      "usdPerGram": 0.01764,
+      "usdPerLb": 8.0,
+      "basis": "spice blend, bulk"
+    },
+    "Mint Sauce": {
+      "usdPerGram": 0.00595,
+      "usdPerLb": 2.7,
+      "basis": "house mint-cilantro chutney with yogurt"
+    },
+    "Mixed Greens": {
+      "usdPerGram": 0.01014,
+      "usdPerLb": 4.6,
+      "basis": "spring mix, 3 lb case"
+    },
+    "Mozzarella": {
+      "usdPerGram": 0.00926,
+      "usdPerLb": 4.2,
+      "basis": "shredded low-moisture part-skim, 4 x 5 lb case"
+    },
+    "Mushrooms": {
+      "usdPerGram": 0.00595,
+      "usdPerLb": 2.7,
+      "basis": "sliced, 10 lb case"
+    },
+    "Olive Oil": {
+      "usdPerGram": 0.00992,
+      "usdPerLb": 4.5,
+      "basis": "olive/canola blend, 3 L tins"
+    },
+    "Olives": {
+      "usdPerGram": 0.00639,
+      "usdPerLb": 2.9,
+      "basis": "sliced black, #10 cans, drained weight"
+    },
+    "Onions": {
+      "usdPerGram": 0.00165,
+      "usdPerLb": 0.75,
+      "basis": "yellow, 50 lb sack"
+    },
+    "Oregano": {
+      "usdPerGram": 0.02205,
+      "usdPerLb": 10.0,
+      "basis": "dried, 5 lb"
+    },
+    "Parmesan": {
+      "usdPerGram": 0.01378,
+      "usdPerLb": 6.25,
+      "basis": "grated, 5 lb bag"
+    },
+    "Pepperoni": {
+      "usdPerGram": 0.0108,
+      "usdPerLb": 4.9,
+      "basis": "sliced, 2 x 12.5 lb"
+    },
+    "Pesto Chicken": {
+      "usdPerGram": 0.00992,
+      "usdPerLb": 4.5,
+      "basis": "boneless thigh ~$2.60/lb raw, about 72% cooked yield, plus pesto"
+    },
+    "Pineapple": {
+      "usdPerGram": 0.00353,
+      "usdPerLb": 1.6,
+      "basis": "tidbits, #10 cans, drained weight"
+    },
+    "Pizza Dough": {
+      "usdPerGram": 0.0011,
+      "usdPerLb": 0.5,
+      "basis": "made in-house: flour ~$0.40/lb in 50 lb bags, plus oil, yeast, salt"
+    },
+    "Pomegranate Seeds": {
+      "usdPerGram": 0.01764,
+      "usdPerLb": 8.0,
+      "basis": "arils, 2 lb"
+    },
+    "Potatoes": {
+      "usdPerGram": 0.00143,
+      "usdPerLb": 0.65,
+      "basis": "50 lb case russets"
+    },
+    "Red Onions": {
+      "usdPerGram": 0.0022,
+      "usdPerLb": 1.0,
+      "basis": "25 lb sack, about 90% usable"
+    },
+    "Red Sauce": {
+      "usdPerGram": 0.0022,
+      "usdPerLb": 1.0,
+      "basis": "#10 cans ground tomato ~$6.50 per 6.6 lb, plus seasoning"
+    },
+    "Romaine Lettuce": {
+      "usdPerGram": 0.00419,
+      "usdPerLb": 1.9,
+      "basis": "chopped romaine, 4 x 5 lb"
+    },
+    "Salami": {
+      "usdPerGram": 0.0119,
+      "usdPerLb": 5.4,
+      "basis": "sliced Genoa, 2 x 6 lb"
+    },
+    "Spiced Ground Chicken": {
+      "usdPerGram": 0.00882,
+      "usdPerLb": 4.0,
+      "basis": "ground chicken ~$2.90/lb raw, about 75% cooked yield, plus spices"
+    },
+    "Spiced Ground Lamb": {
+      "usdPerGram": 0.02161,
+      "usdPerLb": 9.8,
+      "basis": "ground lamb ~$7.40/lb raw, about 78% cooked yield, plus spices"
+    },
+    "Spicy BBQ Sauce": {
+      "usdPerGram": 0.00419,
+      "usdPerLb": 1.9,
+      "basis": "1 gal jugs, plus chili"
+    },
+    "Spicy Curry Sauce": {
+      "usdPerGram": 0.00463,
+      "usdPerLb": 2.1,
+      "basis": "house-made: tomato, onion, oil, spices"
+    },
+    "Strawberries": {
+      "usdPerGram": 0.00639,
+      "usdPerLb": 2.9,
+      "basis": "8 x 1 lb flat"
+    },
+    "Tandoori BBQ Chicken": {
+      "usdPerGram": 0.00926,
+      "usdPerLb": 4.2,
+      "basis": "boneless thigh ~$2.60/lb raw, about 72% cooked yield, plus BBQ glaze"
+    },
+    "Tandoori Chicken": {
+      "usdPerGram": 0.00904,
+      "usdPerLb": 4.1,
+      "basis": "boneless thigh ~$2.60/lb raw, about 72% cooked yield, plus marinade"
+    },
+    "Tandoori Marinade": {
+      "usdPerGram": 0.00441,
+      "usdPerLb": 2.0,
+      "basis": "house: yogurt, spices, lemon"
+    },
+    "Tangy Sauce": {
+      "usdPerGram": 0.00507,
+      "usdPerLb": 2.3,
+      "basis": "house tamarind chutney"
+    },
+    "Wing Sauce": {
+      "usdPerGram": 0.00507,
+      "usdPerLb": 2.3,
+      "basis": "1 gal jugs"
+    }
   }
 }

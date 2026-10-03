@@ -93,7 +93,7 @@ export function loadMenu() {
 
 function loadIngredientInfo() {
   const shelf = readJSON('shelf-life.json')?.ingredients || {};
-  const costs = readJSON('unit-costs.json')?.costPerKg || {};
+  const costs = readJSON('unit-costs.json')?.costPerGram || {};
   return (name) => {
     const s = shelf[name];
     const k = kindOf(name);
@@ -103,7 +103,7 @@ function loadIngredientInfo() {
       shelfDays: s?.maxDays ?? k.shelf,
       foodkeeper: s?.foodkeeper || null,
       proxy: s?.proxy || null,
-      costPerKg: costs[name] ?? k.cost,
+      costPerGram: costs[name]?.usdPerGram ?? k.cost / 1000,
     };
   };
 }
@@ -258,7 +258,7 @@ export function buildSnapshot() {
     return {
       name, kind: i.kind, storage: i.storage, dailyUse, stock,
       shelfDays: i.shelfDays, age, foodkeeper: i.foodkeeper, proxy: i.proxy,
-      unitCost: i.costPerKg / 1000, // USD per gram
+      unitCost: i.costPerGram, // USD per gram
     };
   });
   const setAge = (it, age) => { it.age = Math.max(0, Math.min(age, it.shelfDays - 1)); };
