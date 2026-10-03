@@ -1,0 +1,1708 @@
+{
+  "_comment": [
+    "Real menu of Tandoori Pizza, San Jose, CA. Names and listed ingredients come from the restaurant's menu page;",
+    "prices are the \"from\" (smallest size) prices on its delivery-app listing.",
+    "Ingredients marked \"approximate\": true are not listed on the menu; we added typical ones.",
+    "An item marked \"approximate\": true has no listed ingredients at all.",
+    "Every \"grams\" value is an approximate portion per dish, not a published recipe.",
+    "mavenCategory is the closest Maven Analytics \"Pizza Place Sales\" category; we borrow its sales pattern (by hour and day of week).",
+    "Menu text only. Do not add the restaurant's logo or food photos to this app."
+  ],
+  "restaurant": {
+    "name": "Tandoori Pizza",
+    "city": "San Jose, CA"
+  },
+  "items": [
+    {
+      "id": "chili_paneer",
+      "name": "Chili Paneer Pizza",
+      "section": "pizza",
+      "price": 28.59,
+      "priceSource": "delivery app",
+      "mavenCategory": "Veggie",
+      "mavenClosest": "The Mexicana Pizza",
+      "ingredients": [
+        {
+          "name": "Pizza Dough",
+          "grams": 300,
+          "approximate": true
+        },
+        {
+          "name": "Spicy Curry Sauce",
+          "grams": 100
+        },
+        {
+          "name": "Mozzarella",
+          "grams": 140
+        },
+        {
+          "name": "Bell Peppers",
+          "grams": 40
+        },
+        {
+          "name": "Red Onions",
+          "grams": 35
+        },
+        {
+          "name": "Diced Tomatoes",
+          "grams": 45
+        },
+        {
+          "name": "Marinated Paneer",
+          "grams": 110
+        },
+        {
+          "name": "Green Onions",
+          "grams": 10
+        },
+        {
+          "name": "Cilantro",
+          "grams": 5
+        }
+      ]
+    },
+    {
+      "id": "shahi_paneer",
+      "name": "Shahi Paneer Pizza",
+      "section": "pizza",
+      "price": 28.59,
+      "priceSource": "delivery app",
+      "mavenCategory": "Veggie",
+      "mavenClosest": "The Five Cheese Pizza",
+      "ingredients": [
+        {
+          "name": "Pizza Dough",
+          "grams": 300,
+          "approximate": true
+        },
+        {
+          "name": "Makhni Sauce",
+          "grams": 100
+        },
+        {
+          "name": "Mozzarella",
+          "grams": 140,
+          "approximate": true
+        },
+        {
+          "name": "Bell Peppers",
+          "grams": 40
+        },
+        {
+          "name": "Red Onions",
+          "grams": 35
+        },
+        {
+          "name": "Diced Tomatoes",
+          "grams": 45
+        },
+        {
+          "name": "Marinated Paneer",
+          "grams": 110
+        },
+        {
+          "name": "Cilantro",
+          "grams": 5
+        }
+      ]
+    },
+    {
+      "id": "curry_veggie",
+      "name": "Curry Veggie Delight Pizza",
+      "section": "pizza",
+      "price": 28.59,
+      "priceSource": "delivery app",
+      "mavenCategory": "Veggie",
+      "mavenClosest": "The Vegetables + Vegetables Pizza",
+      "ingredients": [
+        {
+          "name": "Pizza Dough",
+          "grams": 300,
+          "approximate": true
+        },
+        {
+          "name": "Spicy Curry Sauce",
+          "grams": 100
+        },
+        {
+          "name": "Mozzarella",
+          "grams": 140
+        },
+        {
+          "name": "Mushrooms",
+          "grams": 40
+        },
+        {
+          "name": "Bell Peppers",
+          "grams": 40
+        },
+        {
+          "name": "Olives",
+          "grams": 25
+        },
+        {
+          "name": "Red Onions",
+          "grams": 35
+        },
+        {
+          "name": "Diced Tomatoes",
+          "grams": 45
+        },
+        {
+          "name": "Cilantro",
+          "grams": 5
+        }
+      ]
+    },
+    {
+      "id": "spicy_garden",
+      "name": "Spicy Garden Delight Pizza",
+      "section": "pizza",
+      "price": 28.59,
+      "priceSource": "inferred: same as the other specialty pizzas",
+      "mavenCategory": "Veggie",
+      "mavenClosest": "The Mexicana Pizza",
+      "ingredients": [
+        {
+          "name": "Pizza Dough",
+          "grams": 300,
+          "approximate": true
+        },
+        {
+          "name": "Red Sauce",
+          "grams": 100
+        },
+        {
+          "name": "Mozzarella",
+          "grams": 140
+        },
+        {
+          "name": "Mushrooms",
+          "grams": 40
+        },
+        {
+          "name": "Bell Peppers",
+          "grams": 40
+        },
+        {
+          "name": "Olives",
+          "grams": 25
+        },
+        {
+          "name": "Red Onions",
+          "grams": 35
+        },
+        {
+          "name": "Diced Tomatoes",
+          "grams": 45
+        },
+        {
+          "name": "Ginger",
+          "grams": 6
+        },
+        {
+          "name": "Green Chili",
+          "grams": 8
+        }
+      ]
+    },
+    {
+      "id": "achari_gobhi",
+      "name": "Achari Gobhi Pizza",
+      "section": "pizza",
+      "price": 28.59,
+      "priceSource": "delivery app",
+      "mavenCategory": "Veggie",
+      "mavenClosest": "The Italian Vegetables Pizza",
+      "ingredients": [
+        {
+          "name": "Pizza Dough",
+          "grams": 300,
+          "approximate": true
+        },
+        {
+          "name": "Creamy Garlic Sauce",
+          "grams": 90
+        },
+        {
+          "name": "Mozzarella",
+          "grams": 140
+        },
+        {
+          "name": "Red Onions",
+          "grams": 35
+        },
+        {
+          "name": "Diced Tomatoes",
+          "grams": 45
+        },
+        {
+          "name": "Cauliflower",
+          "grams": 120
+        }
+      ]
+    },
+    {
+      "id": "malai_paneer",
+      "name": "Malai Paneer Pizza",
+      "section": "pizza",
+      "price": 28.59,
+      "priceSource": "delivery app",
+      "mavenCategory": "Veggie",
+      "mavenClosest": "The Five Cheese Pizza",
+      "ingredients": [
+        {
+          "name": "Pizza Dough",
+          "grams": 300,
+          "approximate": true
+        },
+        {
+          "name": "Malai Sauce",
+          "grams": 100
+        },
+        {
+          "name": "Mozzarella",
+          "grams": 140
+        },
+        {
+          "name": "Bell Peppers",
+          "grams": 40
+        },
+        {
+          "name": "Red Onions",
+          "grams": 35
+        },
+        {
+          "name": "Diced Tomatoes",
+          "grams": 45
+        },
+        {
+          "name": "Marinated Paneer",
+          "grams": 110
+        }
+      ]
+    },
+    {
+      "id": "butter_chicken",
+      "name": "Butter Chicken Pizza",
+      "section": "pizza",
+      "price": 28.59,
+      "priceSource": "delivery app",
+      "mavenCategory": "Chicken",
+      "mavenClosest": "The Chicken Alfredo Pizza",
+      "ingredients": [
+        {
+          "name": "Pizza Dough",
+          "grams": 300,
+          "approximate": true
+        },
+        {
+          "name": "Makhni Sauce",
+          "grams": 100
+        },
+        {
+          "name": "Mozzarella",
+          "grams": 140
+        },
+        {
+          "name": "Bell Peppers",
+          "grams": 40
+        },
+        {
+          "name": "Red Onions",
+          "grams": 35
+        },
+        {
+          "name": "Diced Tomatoes",
+          "grams": 45
+        },
+        {
+          "name": "Butter Chicken",
+          "grams": 120,
+          "approximate": true
+        },
+        {
+          "name": "Cilantro",
+          "grams": 5
+        }
+      ]
+    },
+    {
+      "id": "tandoori_chicken",
+      "name": "Tandoori Chicken Pizza",
+      "section": "pizza",
+      "price": 28.59,
+      "priceSource": "delivery app",
+      "mavenCategory": "Chicken",
+      "mavenClosest": "The Barbecue Chicken Pizza",
+      "ingredients": [
+        {
+          "name": "Pizza Dough",
+          "grams": 300,
+          "approximate": true
+        },
+        {
+          "name": "Creamy Garlic Sauce",
+          "grams": 90
+        },
+        {
+          "name": "Mozzarella",
+          "grams": 140
+        },
+        {
+          "name": "Bell Peppers",
+          "grams": 40
+        },
+        {
+          "name": "Red Onions",
+          "grams": 35
+        },
+        {
+          "name": "Diced Tomatoes",
+          "grams": 45
+        },
+        {
+          "name": "Tandoori Chicken",
+          "grams": 120
+        },
+        {
+          "name": "Green Onions",
+          "grams": 10
+        },
+        {
+          "name": "Cilantro",
+          "grams": 5
+        }
+      ]
+    },
+    {
+      "id": "chicken_tikka",
+      "name": "Chicken Tikka Pizza",
+      "section": "pizza",
+      "price": 28.59,
+      "priceSource": "delivery app",
+      "mavenCategory": "Chicken",
+      "mavenClosest": "The Southwest Chicken Pizza",
+      "ingredients": [
+        {
+          "name": "Pizza Dough",
+          "grams": 300,
+          "approximate": true
+        },
+        {
+          "name": "Creamy Garlic Sauce",
+          "grams": 90
+        },
+        {
+          "name": "Mozzarella",
+          "grams": 140
+        },
+        {
+          "name": "Red Onions",
+          "grams": 35
+        },
+        {
+          "name": "Diced Tomatoes",
+          "grams": 45
+        },
+        {
+          "name": "Chicken Tikka",
+          "grams": 120
+        },
+        {
+          "name": "Green Onions",
+          "grams": 10
+        },
+        {
+          "name": "Cilantro",
+          "grams": 5
+        }
+      ]
+    },
+    {
+      "id": "curry_chicken",
+      "name": "Curry Chicken Pizza",
+      "section": "pizza",
+      "price": 28.59,
+      "priceSource": "delivery app",
+      "mavenCategory": "Chicken",
+      "mavenClosest": "The Thai Chicken Pizza",
+      "ingredients": [
+        {
+          "name": "Pizza Dough",
+          "grams": 300,
+          "approximate": true
+        },
+        {
+          "name": "Spicy Curry Sauce",
+          "grams": 100
+        },
+        {
+          "name": "Mozzarella",
+          "grams": 140
+        },
+        {
+          "name": "Bell Peppers",
+          "grams": 40
+        },
+        {
+          "name": "Red Onions",
+          "grams": 35
+        },
+        {
+          "name": "Diced Tomatoes",
+          "grams": 45
+        },
+        {
+          "name": "Curry Chicken",
+          "grams": 120
+        },
+        {
+          "name": "Green Onions",
+          "grams": 10
+        },
+        {
+          "name": "Cilantro",
+          "grams": 5
+        }
+      ]
+    },
+    {
+      "id": "malai_chicken",
+      "name": "Malai Chicken Pizza",
+      "section": "pizza",
+      "price": 28.59,
+      "priceSource": "delivery app",
+      "mavenCategory": "Chicken",
+      "mavenClosest": "The Chicken Alfredo Pizza",
+      "ingredients": [
+        {
+          "name": "Pizza Dough",
+          "grams": 300,
+          "approximate": true
+        },
+        {
+          "name": "Malai Sauce",
+          "grams": 100
+        },
+        {
+          "name": "Mozzarella",
+          "grams": 140
+        },
+        {
+          "name": "Bell Peppers",
+          "grams": 40
+        },
+        {
+          "name": "Red Onions",
+          "grams": 35
+        },
+        {
+          "name": "Diced Tomatoes",
+          "grams": 45
+        },
+        {
+          "name": "Malai Chicken",
+          "grams": 120
+        }
+      ]
+    },
+    {
+      "id": "achari_chicken",
+      "name": "Achari Chicken Pizza",
+      "section": "pizza",
+      "price": 28.59,
+      "priceSource": "delivery app",
+      "mavenCategory": "Chicken",
+      "mavenClosest": "The Southwest Chicken Pizza",
+      "ingredients": [
+        {
+          "name": "Pizza Dough",
+          "grams": 300,
+          "approximate": true
+        },
+        {
+          "name": "Creamy Garlic Sauce",
+          "grams": 90
+        },
+        {
+          "name": "Mozzarella",
+          "grams": 140
+        },
+        {
+          "name": "Red Onions",
+          "grams": 35
+        },
+        {
+          "name": "Diced Tomatoes",
+          "grams": 45
+        },
+        {
+          "name": "Achari Chicken",
+          "grams": 120
+        }
+      ]
+    },
+    {
+      "id": "tandoori_bbq_chicken",
+      "name": "Tandoori BBQ Chicken Pizza",
+      "section": "pizza",
+      "price": 28.59,
+      "priceSource": "delivery app",
+      "mavenCategory": "Chicken",
+      "mavenClosest": "The Barbecue Chicken Pizza",
+      "ingredients": [
+        {
+          "name": "Pizza Dough",
+          "grams": 300,
+          "approximate": true
+        },
+        {
+          "name": "Spicy BBQ Sauce",
+          "grams": 90
+        },
+        {
+          "name": "Mozzarella",
+          "grams": 140
+        },
+        {
+          "name": "Red Onions",
+          "grams": 35
+        },
+        {
+          "name": "Tandoori BBQ Chicken",
+          "grams": 130
+        }
+      ]
+    },
+    {
+      "id": "desi_garlic_chicken",
+      "name": "Desi Garlic Chicken Pizza",
+      "section": "pizza",
+      "price": 28.59,
+      "priceSource": "delivery app",
+      "mavenCategory": "Chicken",
+      "mavenClosest": "The California Chicken Pizza",
+      "ingredients": [
+        {
+          "name": "Pizza Dough",
+          "grams": 300,
+          "approximate": true
+        },
+        {
+          "name": "Creamy Garlic Sauce",
+          "grams": 90
+        },
+        {
+          "name": "Mozzarella",
+          "grams": 140
+        },
+        {
+          "name": "Mushrooms",
+          "grams": 30
+        },
+        {
+          "name": "Olives",
+          "grams": 20
+        },
+        {
+          "name": "Bell Peppers",
+          "grams": 30
+        },
+        {
+          "name": "Onions",
+          "grams": 30
+        },
+        {
+          "name": "Diced Tomatoes",
+          "grams": 35
+        },
+        {
+          "name": "Garlic Chicken",
+          "grams": 120
+        },
+        {
+          "name": "Green Chili",
+          "grams": 8
+        },
+        {
+          "name": "Ginger",
+          "grams": 6
+        },
+        {
+          "name": "Garlic",
+          "grams": 6
+        },
+        {
+          "name": "Cilantro",
+          "grams": 5
+        }
+      ]
+    },
+    {
+      "id": "masala_pesto_chicken",
+      "name": "Masala Pesto Chicken Pizza",
+      "section": "pizza",
+      "price": 28.59,
+      "priceSource": "delivery app",
+      "mavenCategory": "Chicken",
+      "mavenClosest": "The Chicken Pesto Pizza",
+      "ingredients": [
+        {
+          "name": "Pizza Dough",
+          "grams": 300,
+          "approximate": true
+        },
+        {
+          "name": "Creamy Pesto Sauce",
+          "grams": 80
+        },
+        {
+          "name": "Mozzarella",
+          "grams": 140
+        },
+        {
+          "name": "Onions",
+          "grams": 35
+        },
+        {
+          "name": "Pesto Chicken",
+          "grams": 130
+        }
+      ]
+    },
+    {
+      "id": "lamb_kabab",
+      "name": "Lamb Kabab Pizza",
+      "section": "pizza",
+      "price": 28.59,
+      "priceSource": "inferred: same as the other specialty pizzas",
+      "mavenCategory": "Supreme",
+      "mavenClosest": "The Spicy Italian Pizza",
+      "ingredients": [
+        {
+          "name": "Pizza Dough",
+          "grams": 300,
+          "approximate": true
+        },
+        {
+          "name": "Creamy Garlic Sauce",
+          "grams": 90
+        },
+        {
+          "name": "Mozzarella",
+          "grams": 140
+        },
+        {
+          "name": "Onions",
+          "grams": 35
+        },
+        {
+          "name": "Spiced Ground Lamb",
+          "grams": 110
+        },
+        {
+          "name": "Cilantro",
+          "grams": 5
+        },
+        {
+          "name": "Mint Sauce",
+          "grams": 30
+        }
+      ]
+    },
+    {
+      "id": "chicken_tikka_kabab",
+      "name": "Chicken Tikka Kabab Pizza",
+      "section": "pizza",
+      "price": 28.59,
+      "priceSource": "inferred: same as the other specialty pizzas",
+      "mavenCategory": "Chicken",
+      "mavenClosest": "The Southwest Chicken Pizza",
+      "ingredients": [
+        {
+          "name": "Pizza Dough",
+          "grams": 300,
+          "approximate": true
+        },
+        {
+          "name": "Creamy Garlic Sauce",
+          "grams": 90
+        },
+        {
+          "name": "Mozzarella",
+          "grams": 140,
+          "approximate": true
+        },
+        {
+          "name": "Onions",
+          "grams": 35
+        },
+        {
+          "name": "Spiced Ground Chicken",
+          "grams": 110
+        },
+        {
+          "name": "Cilantro",
+          "grams": 5
+        },
+        {
+          "name": "Mint Sauce",
+          "grams": 30
+        }
+      ]
+    },
+    {
+      "id": "chatpatta_aaloo",
+      "name": "Chatpatta Aaloo Pizza",
+      "section": "pizza",
+      "price": 28.59,
+      "priceSource": "delivery app",
+      "mavenCategory": "Veggie",
+      "mavenClosest": "The Green Garden Pizza",
+      "ingredients": [
+        {
+          "name": "Pizza Dough",
+          "grams": 300,
+          "approximate": true
+        },
+        {
+          "name": "Tangy Sauce",
+          "grams": 60
+        },
+        {
+          "name": "Mozzarella",
+          "grams": 140
+        },
+        {
+          "name": "Onions",
+          "grams": 35
+        },
+        {
+          "name": "Masala Potatoes",
+          "grams": 120
+        },
+        {
+          "name": "Cilantro",
+          "grams": 5
+        }
+      ]
+    },
+    {
+      "id": "classic_vegetarian",
+      "name": "Classic Vegetarian Pizza",
+      "section": "pizza",
+      "price": 28.59,
+      "priceSource": "delivery app",
+      "mavenCategory": "Veggie",
+      "mavenClosest": "The Vegetables + Vegetables Pizza",
+      "ingredients": [
+        {
+          "name": "Pizza Dough",
+          "grams": 300,
+          "approximate": true
+        },
+        {
+          "name": "Red Sauce",
+          "grams": 100,
+          "approximate": true
+        },
+        {
+          "name": "Mozzarella",
+          "grams": 140,
+          "approximate": true
+        },
+        {
+          "name": "Mushrooms",
+          "grams": 40
+        },
+        {
+          "name": "Olives",
+          "grams": 25
+        },
+        {
+          "name": "Bell Peppers",
+          "grams": 40
+        },
+        {
+          "name": "Diced Tomatoes",
+          "grams": 45
+        },
+        {
+          "name": "Red Onions",
+          "grams": 35
+        },
+        {
+          "name": "Artichoke Hearts",
+          "grams": 50
+        }
+      ]
+    },
+    {
+      "id": "italian_garlic_combo",
+      "name": "Italian Garlic Combination Pizza",
+      "section": "pizza",
+      "price": 28.59,
+      "priceSource": "inferred: same as the other specialty pizzas",
+      "mavenCategory": "Supreme",
+      "mavenClosest": "The Italian Supreme Pizza",
+      "ingredients": [
+        {
+          "name": "Pizza Dough",
+          "grams": 300,
+          "approximate": true
+        },
+        {
+          "name": "Creamy Garlic Sauce",
+          "grams": 90
+        },
+        {
+          "name": "Mozzarella",
+          "grams": 140,
+          "approximate": true
+        },
+        {
+          "name": "Pepperoni",
+          "grams": 50
+        },
+        {
+          "name": "Italian Sausage",
+          "grams": 60
+        },
+        {
+          "name": "Mushrooms",
+          "grams": 40
+        },
+        {
+          "name": "Olives",
+          "grams": 25
+        },
+        {
+          "name": "Green Onions",
+          "grams": 10
+        }
+      ]
+    },
+    {
+      "id": "classic_combo",
+      "name": "Classic Combination Pizza",
+      "section": "pizza",
+      "price": 28.59,
+      "priceSource": "inferred: same as the other specialty pizzas",
+      "mavenCategory": "Classic",
+      "mavenClosest": "The Classic Deluxe Pizza",
+      "ingredients": [
+        {
+          "name": "Pizza Dough",
+          "grams": 300,
+          "approximate": true
+        },
+        {
+          "name": "Red Sauce",
+          "grams": 100,
+          "approximate": true
+        },
+        {
+          "name": "Mozzarella",
+          "grams": 140,
+          "approximate": true
+        },
+        {
+          "name": "Pepperoni",
+          "grams": 40
+        },
+        {
+          "name": "Salami",
+          "grams": 35
+        },
+        {
+          "name": "Beef",
+          "grams": 40
+        },
+        {
+          "name": "Italian Sausage",
+          "grams": 40
+        },
+        {
+          "name": "Mushrooms",
+          "grams": 30
+        },
+        {
+          "name": "Olives",
+          "grams": 20
+        },
+        {
+          "name": "Diced Tomatoes",
+          "grams": 35
+        },
+        {
+          "name": "Bell Peppers",
+          "grams": 30
+        },
+        {
+          "name": "Red Onions",
+          "grams": 30
+        }
+      ]
+    },
+    {
+      "id": "classic_bacon_combo",
+      "name": "Classic Bacon Combination Pizza",
+      "section": "pizza",
+      "price": 28.59,
+      "priceSource": "delivery app",
+      "mavenCategory": "Classic",
+      "mavenClosest": "The Classic Deluxe Pizza",
+      "ingredients": [
+        {
+          "name": "Pizza Dough",
+          "grams": 300,
+          "approximate": true
+        },
+        {
+          "name": "Creamy Garlic Sauce",
+          "grams": 90
+        },
+        {
+          "name": "Mozzarella",
+          "grams": 140,
+          "approximate": true
+        },
+        {
+          "name": "Ham",
+          "grams": 50
+        },
+        {
+          "name": "Bacon",
+          "grams": 40
+        },
+        {
+          "name": "Mushrooms",
+          "grams": 40
+        },
+        {
+          "name": "Olives",
+          "grams": 25
+        },
+        {
+          "name": "Green Onions",
+          "grams": 10
+        }
+      ]
+    },
+    {
+      "id": "margherita",
+      "name": "Original Margherita Pizza",
+      "section": "pizza",
+      "price": 28.59,
+      "priceSource": "inferred: same as the other specialty pizzas",
+      "mavenCategory": "Classic",
+      "mavenClosest": "The Napolitana Pizza",
+      "ingredients": [
+        {
+          "name": "Pizza Dough",
+          "grams": 300,
+          "approximate": true
+        },
+        {
+          "name": "Red Sauce",
+          "grams": 100
+        },
+        {
+          "name": "Oregano",
+          "grams": 1
+        },
+        {
+          "name": "Basil",
+          "grams": 4
+        },
+        {
+          "name": "Diced Tomatoes",
+          "grams": 60
+        },
+        {
+          "name": "Olive Oil",
+          "grams": 8
+        },
+        {
+          "name": "Mozzarella",
+          "grams": 160
+        }
+      ]
+    },
+    {
+      "id": "all_meat_combo",
+      "name": "All Meat Combination Pizza",
+      "section": "pizza",
+      "price": 28.59,
+      "priceSource": "inferred: same as the other specialty pizzas",
+      "mavenCategory": "Classic",
+      "mavenClosest": "The Big Meat Pizza",
+      "ingredients": [
+        {
+          "name": "Pizza Dough",
+          "grams": 300,
+          "approximate": true
+        },
+        {
+          "name": "Red Sauce",
+          "grams": 100,
+          "approximate": true
+        },
+        {
+          "name": "Mozzarella",
+          "grams": 140,
+          "approximate": true
+        },
+        {
+          "name": "Ham",
+          "grams": 40
+        },
+        {
+          "name": "Salami",
+          "grams": 35
+        },
+        {
+          "name": "Pepperoni",
+          "grams": 40
+        },
+        {
+          "name": "Beef",
+          "grams": 45
+        },
+        {
+          "name": "Italian Sausage",
+          "grams": 50
+        }
+      ]
+    },
+    {
+      "id": "classic_pepperoni",
+      "name": "Classic Pepperoni Pizza",
+      "section": "pizza",
+      "price": 28.59,
+      "priceSource": "inferred: same as the other specialty pizzas",
+      "mavenCategory": "Classic",
+      "mavenClosest": "The Pepperoni Pizza",
+      "ingredients": [
+        {
+          "name": "Pizza Dough",
+          "grams": 300,
+          "approximate": true
+        },
+        {
+          "name": "Red Sauce",
+          "grams": 100
+        },
+        {
+          "name": "Mozzarella",
+          "grams": 140
+        },
+        {
+          "name": "Pepperoni",
+          "grams": 70
+        }
+      ]
+    },
+    {
+      "id": "garlic_chicken_combo",
+      "name": "Garlic Chicken Combination Pizza",
+      "section": "pizza",
+      "price": 28.59,
+      "priceSource": "delivery app",
+      "mavenCategory": "Chicken",
+      "mavenClosest": "The Chicken Alfredo Pizza",
+      "ingredients": [
+        {
+          "name": "Pizza Dough",
+          "grams": 300,
+          "approximate": true
+        },
+        {
+          "name": "Creamy Garlic Sauce",
+          "grams": 90
+        },
+        {
+          "name": "Mozzarella",
+          "grams": 140,
+          "approximate": true
+        },
+        {
+          "name": "Grilled Chicken",
+          "grams": 110
+        },
+        {
+          "name": "Bacon",
+          "grams": 35
+        },
+        {
+          "name": "Diced Tomatoes",
+          "grams": 45
+        },
+        {
+          "name": "Green Onions",
+          "grams": 10
+        }
+      ]
+    },
+    {
+      "id": "bbq_chicken_combo",
+      "name": "BBQ Chicken Combination Pizza",
+      "section": "pizza",
+      "price": 28.59,
+      "priceSource": "delivery app",
+      "mavenCategory": "Chicken",
+      "mavenClosest": "The Barbecue Chicken Pizza",
+      "ingredients": [
+        {
+          "name": "Pizza Dough",
+          "grams": 300,
+          "approximate": true
+        },
+        {
+          "name": "BBQ Sauce",
+          "grams": 90
+        },
+        {
+          "name": "Mozzarella",
+          "grams": 140,
+          "approximate": true
+        },
+        {
+          "name": "Grilled Chicken",
+          "grams": 110
+        },
+        {
+          "name": "Bacon",
+          "grams": 35
+        },
+        {
+          "name": "Red Onions",
+          "grams": 35
+        },
+        {
+          "name": "Pineapple",
+          "grams": 60
+        }
+      ]
+    },
+    {
+      "id": "buffalo_chicken",
+      "name": "Buffalo Chicken Pizza",
+      "section": "pizza",
+      "price": 28.59,
+      "priceSource": "delivery app",
+      "mavenCategory": "Chicken",
+      "mavenClosest": "The Southwest Chicken Pizza",
+      "ingredients": [
+        {
+          "name": "Pizza Dough",
+          "grams": 300,
+          "approximate": true
+        },
+        {
+          "name": "Creamy Garlic Sauce",
+          "grams": 90
+        },
+        {
+          "name": "Mozzarella",
+          "grams": 140
+        },
+        {
+          "name": "Red Onions",
+          "grams": 35
+        },
+        {
+          "name": "Diced Tomatoes",
+          "grams": 45
+        },
+        {
+          "name": "Buffalo Chicken",
+          "grams": 120
+        },
+        {
+          "name": "Cilantro",
+          "grams": 5,
+          "approximate": true
+        }
+      ]
+    },
+    {
+      "id": "hawaiian",
+      "name": "Hawaiian Pizza",
+      "section": "pizza",
+      "price": 28.59,
+      "priceSource": "delivery app",
+      "mavenCategory": "Classic",
+      "mavenClosest": "The Hawaiian Pizza",
+      "ingredients": [
+        {
+          "name": "Pizza Dough",
+          "grams": 300,
+          "approximate": true
+        },
+        {
+          "name": "Red Sauce",
+          "grams": 100,
+          "approximate": true
+        },
+        {
+          "name": "Mozzarella",
+          "grams": 140,
+          "approximate": true
+        },
+        {
+          "name": "Ham",
+          "grams": 70
+        },
+        {
+          "name": "Pineapple",
+          "grams": 80
+        }
+      ]
+    },
+    {
+      "id": "cheese",
+      "name": "Cheese Pizza",
+      "section": "pizza",
+      "price": 23.39,
+      "priceSource": "delivery app",
+      "mavenCategory": "Veggie",
+      "mavenClosest": "The Four Cheese Pizza",
+      "approximate": true,
+      "ingredients": [
+        {
+          "name": "Pizza Dough",
+          "grams": 300,
+          "approximate": true
+        },
+        {
+          "name": "Red Sauce",
+          "grams": 100,
+          "approximate": true
+        },
+        {
+          "name": "Mozzarella",
+          "grams": 180,
+          "approximate": true
+        }
+      ]
+    },
+    {
+      "id": "garlic_sticks",
+      "name": "Garlic Sticks with Cheese",
+      "section": "side",
+      "price": 11.69,
+      "priceSource": "delivery app",
+      "mavenCategory": "Veggie",
+      "approximate": true,
+      "ingredients": [
+        {
+          "name": "Pizza Dough",
+          "grams": 300,
+          "approximate": true
+        },
+        {
+          "name": "Garlic Butter",
+          "grams": 30,
+          "approximate": true
+        },
+        {
+          "name": "Mozzarella",
+          "grams": 120,
+          "approximate": true
+        }
+      ]
+    },
+    {
+      "id": "tandoori_sticks",
+      "name": "Tandoori Sticks with Cheese",
+      "section": "side",
+      "price": 18.19,
+      "priceSource": "inferred: same as Desi Sticks with Cheese",
+      "mavenCategory": "Veggie",
+      "ingredients": [
+        {
+          "name": "Pizza Dough",
+          "grams": 300,
+          "approximate": true
+        },
+        {
+          "name": "Garlic Butter",
+          "grams": 25,
+          "approximate": true
+        },
+        {
+          "name": "Mozzarella",
+          "grams": 120,
+          "approximate": true
+        },
+        {
+          "name": "Onions",
+          "grams": 30
+        },
+        {
+          "name": "Pineapple",
+          "grams": 50
+        },
+        {
+          "name": "Jalapeños",
+          "grams": 20
+        }
+      ]
+    },
+    {
+      "id": "desi_sticks",
+      "name": "Desi Sticks with Cheese",
+      "section": "side",
+      "price": 18.19,
+      "priceSource": "delivery app",
+      "mavenCategory": "Veggie",
+      "ingredients": [
+        {
+          "name": "Pizza Dough",
+          "grams": 300,
+          "approximate": true
+        },
+        {
+          "name": "Garlic Butter",
+          "grams": 25,
+          "approximate": true
+        },
+        {
+          "name": "Mozzarella",
+          "grams": 120,
+          "approximate": true
+        },
+        {
+          "name": "Ginger",
+          "grams": 6
+        },
+        {
+          "name": "Cilantro",
+          "grams": 5
+        },
+        {
+          "name": "Onions",
+          "grams": 30
+        },
+        {
+          "name": "Jalapeños",
+          "grams": 20
+        },
+        {
+          "name": "Pineapple",
+          "grams": 50
+        }
+      ]
+    },
+    {
+      "id": "pesto_sticks",
+      "name": "Pesto Sticks with Cheese",
+      "section": "side",
+      "price": 15.59,
+      "priceSource": "delivery app",
+      "mavenCategory": "Veggie",
+      "ingredients": [
+        {
+          "name": "Pizza Dough",
+          "grams": 300,
+          "approximate": true
+        },
+        {
+          "name": "Creamy Pesto Sauce",
+          "grams": 60
+        },
+        {
+          "name": "Mozzarella",
+          "grams": 120,
+          "approximate": true
+        },
+        {
+          "name": "Onions",
+          "grams": 30
+        },
+        {
+          "name": "Green Chili",
+          "grams": 8
+        }
+      ]
+    },
+    {
+      "id": "tandoori_wings",
+      "name": "Tandoori Wings",
+      "section": "side",
+      "price": 15.59,
+      "priceSource": "delivery app",
+      "mavenCategory": "Chicken",
+      "approximate": true,
+      "ingredients": [
+        {
+          "name": "Chicken Wings",
+          "grams": 450,
+          "approximate": true
+        },
+        {
+          "name": "Tandoori Marinade",
+          "grams": 60,
+          "approximate": true
+        }
+      ]
+    },
+    {
+      "id": "achari_wings",
+      "name": "Achari Wings",
+      "section": "side",
+      "price": 15.59,
+      "priceSource": "inferred: same as Tandoori Wings",
+      "mavenCategory": "Chicken",
+      "approximate": true,
+      "ingredients": [
+        {
+          "name": "Chicken Wings",
+          "grams": 450,
+          "approximate": true
+        },
+        {
+          "name": "Achari Marinade",
+          "grams": 60,
+          "approximate": true
+        }
+      ]
+    },
+    {
+      "id": "cauliflower_wings",
+      "name": "Cauliflower Wings",
+      "section": "side",
+      "price": 14.29,
+      "priceSource": "inferred: same as Buffalo Wings",
+      "mavenCategory": "Veggie",
+      "approximate": true,
+      "ingredients": [
+        {
+          "name": "Cauliflower",
+          "grams": 300,
+          "approximate": true
+        },
+        {
+          "name": "Breadcrumbs",
+          "grams": 60,
+          "approximate": true
+        },
+        {
+          "name": "Wing Sauce",
+          "grams": 60,
+          "approximate": true
+        }
+      ]
+    },
+    {
+      "id": "chicken_wings",
+      "name": "Chicken Wings or Boneless Wings",
+      "section": "side",
+      "price": 14.29,
+      "priceSource": "inferred: same as Buffalo Wings",
+      "mavenCategory": "Chicken",
+      "ingredients": [
+        {
+          "name": "Chicken Wings",
+          "grams": 450,
+          "approximate": true
+        },
+        {
+          "name": "Wing Sauce",
+          "grams": 60
+        }
+      ]
+    },
+    {
+      "id": "buffalo_wings",
+      "name": "Buffalo Wings",
+      "section": "side",
+      "price": 14.29,
+      "priceSource": "delivery app",
+      "mavenCategory": "Chicken",
+      "ingredients": [
+        {
+          "name": "Chicken Wings",
+          "grams": 450,
+          "approximate": true
+        },
+        {
+          "name": "Buffalo Sauce",
+          "grams": 60
+        }
+      ]
+    },
+    {
+      "id": "mozzarella_sticks",
+      "name": "Mozzarella Sticks",
+      "section": "side",
+      "price": 11.69,
+      "priceSource": "inferred: same as Garlic Sticks with Cheese",
+      "mavenCategory": "Veggie",
+      "approximate": true,
+      "ingredients": [
+        {
+          "name": "Mozzarella",
+          "grams": 180,
+          "approximate": true
+        },
+        {
+          "name": "Breadcrumbs",
+          "grams": 50,
+          "approximate": true
+        },
+        {
+          "name": "Marinara",
+          "grams": 60,
+          "approximate": true
+        }
+      ]
+    },
+    {
+      "id": "jalapeno_poppers",
+      "name": "Jalapeño Poppers",
+      "section": "side",
+      "price": 11.69,
+      "priceSource": "inferred: same as Garlic Sticks with Cheese",
+      "mavenCategory": "Veggie",
+      "approximate": true,
+      "ingredients": [
+        {
+          "name": "Jalapeños",
+          "grams": 150,
+          "approximate": true
+        },
+        {
+          "name": "Cream Cheese",
+          "grams": 80,
+          "approximate": true
+        },
+        {
+          "name": "Breadcrumbs",
+          "grams": 40,
+          "approximate": true
+        }
+      ]
+    },
+    {
+      "id": "garlic_bread",
+      "name": "Garlic Bread with Cheese",
+      "section": "side",
+      "price": 11.69,
+      "priceSource": "inferred: same as Garlic Sticks with Cheese",
+      "mavenCategory": "Veggie",
+      "approximate": true,
+      "ingredients": [
+        {
+          "name": "Pizza Dough",
+          "grams": 250,
+          "approximate": true
+        },
+        {
+          "name": "Garlic Butter",
+          "grams": 30,
+          "approximate": true
+        },
+        {
+          "name": "Mozzarella",
+          "grams": 80,
+          "approximate": true
+        },
+        {
+          "name": "Marinara",
+          "grams": 60,
+          "approximate": true
+        }
+      ]
+    },
+    {
+      "id": "masala_wedges",
+      "name": "Masala Potato Wedges",
+      "section": "side",
+      "price": 12.99,
+      "priceSource": "delivery app",
+      "mavenCategory": "Veggie",
+      "ingredients": [
+        {
+          "name": "Potatoes",
+          "grams": 350
+        },
+        {
+          "name": "Masala Seasoning",
+          "grams": 8
+        },
+        {
+          "name": "Olive Oil",
+          "grams": 15,
+          "approximate": true
+        }
+      ]
+    },
+    {
+      "id": "summer_salad",
+      "name": "Summer/Spring Salad with Mango Balsamic Sauce",
+      "section": "salad",
+      "price": 12.0,
+      "priceSource": "team estimate (not on the menu or app)",
+      "mavenCategory": "Veggie",
+      "ingredients": [
+        {
+          "name": "Mixed Greens",
+          "grams": 120
+        },
+        {
+          "name": "Strawberries",
+          "grams": 60
+        },
+        {
+          "name": "Pomegranate Seeds",
+          "grams": 30
+        },
+        {
+          "name": "Dried Cranberries",
+          "grams": 20
+        },
+        {
+          "name": "Candied Walnuts",
+          "grams": 25
+        },
+        {
+          "name": "Mango Balsamic Dressing",
+          "grams": 45
+        }
+      ]
+    },
+    {
+      "id": "caesar_salad",
+      "name": "Caesar Salad",
+      "section": "salad",
+      "price": 12.0,
+      "priceSource": "team estimate (not on the menu or app)",
+      "mavenCategory": "Veggie",
+      "ingredients": [
+        {
+          "name": "Romaine Lettuce",
+          "grams": 150
+        },
+        {
+          "name": "Parmesan",
+          "grams": 20
+        },
+        {
+          "name": "Carrots",
+          "grams": 30
+        },
+        {
+          "name": "Croutons",
+          "grams": 25
+        },
+        {
+          "name": "Caesar Dressing",
+          "grams": 45
+        }
+      ]
+    }
+  ]
+}

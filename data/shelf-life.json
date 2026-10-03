@@ -1,0 +1,670 @@
+{
+  "_comment": [
+    "Refrigerated shelf life from USDA FoodKeeper (USDA Food Safety and Inspection Service, FoodKeeper data,",
+    "https://www.fsis.usda.gov/shared/data/EN/foodkeeper.json, also on catalog.data.gov/dataset/fsis-foodkeeper-data).",
+    "minDays and maxDays come from the FoodKeeper item named in \"foodkeeper\"; \"column\" is the FoodKeeper storage column used.",
+    "The app computes expiry = simulated delivery date + maxDays.",
+    "Where FoodKeeper has no entry for the ingredient, we use the closest FoodKeeper item and set \"proxy\" to that item.",
+    "Dry goods (storage \"pantry\") use FoodKeeper pantry values because they are not refrigerated."
+  ],
+  "ingredients": {
+    "Achari Chicken": {
+      "kind": "poultry",
+      "storage": "fridge",
+      "foodkeeper": "Cooked poultry dishes",
+      "column": "Refrigerate",
+      "minDays": 3,
+      "maxDays": 4,
+      "proxy": "Cooked poultry dishes",
+      "note": "Marinated chicken, cooked in-house before topping, treated as a cooked poultry dish."
+    },
+    "Achari Marinade": {
+      "kind": "sauce",
+      "storage": "fridge",
+      "foodkeeper": "Chutney",
+      "column": "Refrigerate after opening",
+      "minDays": 30,
+      "maxDays": 60,
+      "proxy": "Chutney",
+      "note": "Pickle-spice marinade, treated as chutney."
+    },
+    "Artichoke Hearts": {
+      "kind": "veg",
+      "storage": "fridge",
+      "foodkeeper": "Marinated vegetables — in oil",
+      "column": "Refrigerate",
+      "minDays": 3,
+      "maxDays": 4,
+      "proxy": "Marinated vegetables — in oil",
+      "note": "Marinated artichoke hearts."
+    },
+    "BBQ Sauce": {
+      "kind": "sauce",
+      "storage": "fridge",
+      "foodkeeper": "Barbecue sauce — bottled",
+      "column": "Refrigerate after opening",
+      "minDays": 120,
+      "maxDays": 120
+    },
+    "Bacon": {
+      "kind": "meat",
+      "storage": "fridge",
+      "foodkeeper": "Bacon",
+      "column": "Refrigerate from purchase",
+      "minDays": 7,
+      "maxDays": 7
+    },
+    "Basil": {
+      "kind": "herb",
+      "storage": "fridge",
+      "foodkeeper": "Basil — fresh",
+      "column": "Refrigerate",
+      "minDays": 10,
+      "maxDays": 10
+    },
+    "Beef": {
+      "kind": "meat",
+      "storage": "fridge",
+      "foodkeeper": "Leftovers — with meat, fish, poultry, or egg",
+      "column": "Refrigerate",
+      "minDays": 3,
+      "maxDays": 4,
+      "proxy": "Leftovers — with meat, fish, poultry, or egg",
+      "note": "Pre-cooked beef topping crumbles, treated as cooked leftovers with meat."
+    },
+    "Bell Peppers": {
+      "kind": "veg",
+      "storage": "fridge",
+      "foodkeeper": "Peppers",
+      "column": "Refrigerate from purchase",
+      "minDays": 4,
+      "maxDays": 14
+    },
+    "Breadcrumbs": {
+      "kind": "pantry",
+      "storage": "pantry",
+      "foodkeeper": "Breadcrumbs — commercial",
+      "column": "Pantry",
+      "minDays": 180,
+      "maxDays": 180
+    },
+    "Buffalo Chicken": {
+      "kind": "poultry",
+      "storage": "fridge",
+      "foodkeeper": "Cooked poultry dishes",
+      "column": "Refrigerate",
+      "minDays": 3,
+      "maxDays": 4,
+      "proxy": "Cooked poultry dishes",
+      "note": "Marinated chicken, cooked in-house before topping, treated as a cooked poultry dish."
+    },
+    "Buffalo Sauce": {
+      "kind": "sauce",
+      "storage": "fridge",
+      "foodkeeper": "Ketchup, cocktail, or chili sauce",
+      "column": "Refrigerate after opening",
+      "minDays": 180,
+      "maxDays": 180,
+      "proxy": "Ketchup, cocktail, or chili sauce",
+      "note": "Bottled chili-based sauce."
+    },
+    "Butter Chicken": {
+      "kind": "poultry",
+      "storage": "fridge",
+      "foodkeeper": "Cooked poultry dishes",
+      "column": "Refrigerate",
+      "minDays": 3,
+      "maxDays": 4,
+      "proxy": "Cooked poultry dishes",
+      "note": "Marinated chicken, cooked in-house before topping, treated as a cooked poultry dish."
+    },
+    "Caesar Dressing": {
+      "kind": "sauce",
+      "storage": "fridge",
+      "foodkeeper": "Salad dressing — creamy",
+      "column": "Refrigerate after opening",
+      "minDays": 21,
+      "maxDays": 28
+    },
+    "Candied Walnuts": {
+      "kind": "pantry",
+      "storage": "fridge",
+      "foodkeeper": "Walnuts — shell or no shell",
+      "column": "Refrigerate from purchase",
+      "minDays": 270,
+      "maxDays": 360,
+      "proxy": "Walnuts — shell or no shell",
+      "note": "Candied walnuts; FoodKeeper lists plain walnuts."
+    },
+    "Carrots": {
+      "kind": "veg",
+      "storage": "fridge",
+      "foodkeeper": "Carrots, parsnips",
+      "column": "Refrigerate from purchase",
+      "minDays": 14,
+      "maxDays": 21
+    },
+    "Cauliflower": {
+      "kind": "veg",
+      "storage": "fridge",
+      "foodkeeper": "Cauliflower",
+      "column": "Refrigerate from purchase",
+      "minDays": 3,
+      "maxDays": 5
+    },
+    "Chicken Tikka": {
+      "kind": "poultry",
+      "storage": "fridge",
+      "foodkeeper": "Cooked poultry dishes",
+      "column": "Refrigerate",
+      "minDays": 3,
+      "maxDays": 4,
+      "proxy": "Cooked poultry dishes",
+      "note": "Marinated chicken, cooked in-house before topping, treated as a cooked poultry dish."
+    },
+    "Chicken Wings": {
+      "kind": "poultry",
+      "storage": "fridge",
+      "foodkeeper": "Chicken parts — legs or thighs",
+      "column": "Refrigerate from purchase",
+      "minDays": 1,
+      "maxDays": 2,
+      "proxy": "Chicken parts — legs or thighs",
+      "note": "FoodKeeper lists raw chicken legs or thighs, not wings."
+    },
+    "Cilantro": {
+      "kind": "herb",
+      "storage": "fridge",
+      "foodkeeper": "Cilantro",
+      "column": "Refrigerate",
+      "minDays": 14,
+      "maxDays": 21
+    },
+    "Cream Cheese": {
+      "kind": "cheese",
+      "storage": "fridge",
+      "foodkeeper": "Cream cheese",
+      "column": "Refrigerate from purchase",
+      "minDays": 14,
+      "maxDays": 14
+    },
+    "Creamy Garlic Sauce": {
+      "kind": "sauce",
+      "storage": "fridge",
+      "foodkeeper": "Dips — sour cream based",
+      "column": "Refrigerate from purchase",
+      "minDays": 14,
+      "maxDays": 14,
+      "proxy": "Dips — sour cream based",
+      "note": "Creamy garlic sauce; closest is a sour-cream dip."
+    },
+    "Creamy Pesto Sauce": {
+      "kind": "sauce",
+      "storage": "fridge",
+      "foodkeeper": "Pesto — jarred",
+      "column": "Refrigerate after opening",
+      "minDays": 3,
+      "maxDays": 3,
+      "proxy": "Pesto — jarred",
+      "note": "House pesto; FoodKeeper lists jarred pesto after opening."
+    },
+    "Croutons": {
+      "kind": "pantry",
+      "storage": "fridge",
+      "foodkeeper": "Croutons",
+      "column": "Refrigerate",
+      "minDays": 150,
+      "maxDays": 180
+    },
+    "Curry Chicken": {
+      "kind": "poultry",
+      "storage": "fridge",
+      "foodkeeper": "Cooked poultry dishes",
+      "column": "Refrigerate",
+      "minDays": 3,
+      "maxDays": 4,
+      "proxy": "Cooked poultry dishes",
+      "note": "Marinated chicken, cooked in-house before topping, treated as a cooked poultry dish."
+    },
+    "Diced Tomatoes": {
+      "kind": "veg",
+      "storage": "fridge",
+      "foodkeeper": "Cherry tomatoes",
+      "column": "Refrigerate",
+      "minDays": 5,
+      "maxDays": 5,
+      "proxy": "Cherry tomatoes",
+      "note": "FoodKeeper gives no refrigerated value for whole tomatoes; closest is cherry tomatoes."
+    },
+    "Dried Cranberries": {
+      "kind": "fruit",
+      "storage": "fridge",
+      "foodkeeper": "Fruits, dried — raisins, apricots, mangoes, cranberries, etc.",
+      "column": "Refrigerate after opening",
+      "minDays": 180,
+      "maxDays": 180
+    },
+    "Garlic": {
+      "kind": "veg",
+      "storage": "fridge",
+      "foodkeeper": "Garlic",
+      "column": "Refrigerate from purchase",
+      "minDays": 3,
+      "maxDays": 14
+    },
+    "Garlic Butter": {
+      "kind": "sauce",
+      "storage": "fridge",
+      "foodkeeper": "Butter",
+      "column": "Refrigerate from purchase",
+      "minDays": 30,
+      "maxDays": 60,
+      "proxy": "Butter",
+      "note": "Butter with garlic."
+    },
+    "Garlic Chicken": {
+      "kind": "poultry",
+      "storage": "fridge",
+      "foodkeeper": "Cooked poultry dishes",
+      "column": "Refrigerate",
+      "minDays": 3,
+      "maxDays": 4,
+      "proxy": "Cooked poultry dishes",
+      "note": "Marinated chicken, cooked in-house before topping, treated as a cooked poultry dish."
+    },
+    "Ginger": {
+      "kind": "veg",
+      "storage": "fridge",
+      "foodkeeper": "Ginger root",
+      "column": "Refrigerate from purchase",
+      "minDays": 14,
+      "maxDays": 21
+    },
+    "Green Chili": {
+      "kind": "veg",
+      "storage": "fridge",
+      "foodkeeper": "Hot peppers",
+      "column": "Refrigerate from purchase",
+      "minDays": 7,
+      "maxDays": 7,
+      "proxy": "Hot peppers",
+      "note": "Hari mirch (fresh green chili)."
+    },
+    "Green Onions": {
+      "kind": "herb",
+      "storage": "fridge",
+      "foodkeeper": "Onions — spring or green",
+      "column": "Refrigerate from purchase",
+      "minDays": 7,
+      "maxDays": 7
+    },
+    "Grilled Chicken": {
+      "kind": "poultry",
+      "storage": "fridge",
+      "foodkeeper": "Cooked poultry dishes",
+      "column": "Refrigerate",
+      "minDays": 3,
+      "maxDays": 4
+    },
+    "Ham": {
+      "kind": "meat",
+      "storage": "fridge",
+      "foodkeeper": "Ham — pre-packaged, luncheon/deli meat",
+      "column": "Refrigerate from purchase",
+      "minDays": 14,
+      "maxDays": 14
+    },
+    "Italian Sausage": {
+      "kind": "meat",
+      "storage": "fridge",
+      "foodkeeper": "Sausage — raw bulk type or patties",
+      "column": "Refrigerate from purchase",
+      "minDays": 1,
+      "maxDays": 2
+    },
+    "Jalapeños": {
+      "kind": "veg",
+      "storage": "fridge",
+      "foodkeeper": "Hot peppers",
+      "column": "Refrigerate from purchase",
+      "minDays": 7,
+      "maxDays": 7
+    },
+    "Makhni Sauce": {
+      "kind": "sauce",
+      "storage": "fridge",
+      "foodkeeper": "Leftovers — without meat (cooked vegetables)",
+      "column": "Refrigerate",
+      "minDays": 3,
+      "maxDays": 4,
+      "proxy": "Leftovers — without meat (cooked vegetables)",
+      "note": "House-cooked tomato-butter-cream sauce, treated as cooked leftovers."
+    },
+    "Malai Chicken": {
+      "kind": "poultry",
+      "storage": "fridge",
+      "foodkeeper": "Cooked poultry dishes",
+      "column": "Refrigerate",
+      "minDays": 3,
+      "maxDays": 4,
+      "proxy": "Cooked poultry dishes",
+      "note": "Marinated chicken, cooked in-house before topping, treated as a cooked poultry dish."
+    },
+    "Malai Sauce": {
+      "kind": "sauce",
+      "storage": "fridge",
+      "foodkeeper": "Cream — heavy",
+      "column": "Refrigerate from purchase",
+      "minDays": 10,
+      "maxDays": 10,
+      "proxy": "Cream — heavy",
+      "note": "Cream-based sauce; shelf life of heavy cream."
+    },
+    "Mango Balsamic Dressing": {
+      "kind": "sauce",
+      "storage": "fridge",
+      "foodkeeper": "Salad dressing — vinaigrette",
+      "column": "Refrigerate after opening",
+      "minDays": 28,
+      "maxDays": 28,
+      "proxy": "Salad dressing — vinaigrette",
+      "note": "Vinaigrette-style dressing."
+    },
+    "Marinara": {
+      "kind": "sauce",
+      "storage": "fridge",
+      "foodkeeper": "Tomato sauce — spaghetti, pizza",
+      "column": "Refrigerate after opening",
+      "minDays": 3,
+      "maxDays": 5
+    },
+    "Marinated Paneer": {
+      "kind": "cheese",
+      "storage": "fridge",
+      "foodkeeper": "Quark — fresh cheese",
+      "column": "Refrigerate",
+      "minDays": 7,
+      "maxDays": 10,
+      "proxy": "Quark — fresh cheese",
+      "note": "Paneer is not in FoodKeeper; closest fresh unaged cheese."
+    },
+    "Masala Potatoes": {
+      "kind": "veg",
+      "storage": "fridge",
+      "foodkeeper": "Leftovers — without meat (cooked vegetables)",
+      "column": "Refrigerate",
+      "minDays": 3,
+      "maxDays": 4,
+      "proxy": "Leftovers — without meat (cooked vegetables)",
+      "note": "Cooked spiced potatoes, treated as cooked leftovers."
+    },
+    "Masala Seasoning": {
+      "kind": "pantry",
+      "storage": "pantry",
+      "foodkeeper": "Spice/spices — ground",
+      "column": "Pantry after opening",
+      "minDays": 730,
+      "maxDays": 1095,
+      "proxy": "Spice/spices — ground",
+      "note": "Ground spice blend."
+    },
+    "Mint Sauce": {
+      "kind": "sauce",
+      "storage": "fridge",
+      "foodkeeper": "Salsa — homemade, fresh",
+      "column": "Refrigerate",
+      "minDays": 5,
+      "maxDays": 7,
+      "proxy": "Salsa — homemade, fresh",
+      "note": "Fresh mint chutney, treated as fresh homemade salsa."
+    },
+    "Mixed Greens": {
+      "kind": "herb",
+      "storage": "fridge",
+      "foodkeeper": "Bagged greens — leaf, spinach, lettuce, etc.",
+      "column": "Refrigerate",
+      "minDays": 3,
+      "maxDays": 5
+    },
+    "Mozzarella": {
+      "kind": "cheese",
+      "storage": "fridge",
+      "foodkeeper": "Cheese — shredded; cheddar, mozzarella, etc.",
+      "column": "Refrigerate from purchase",
+      "minDays": 30,
+      "maxDays": 30
+    },
+    "Mushrooms": {
+      "kind": "veg",
+      "storage": "fridge",
+      "foodkeeper": "Mushrooms",
+      "column": "Refrigerate from purchase",
+      "minDays": 3,
+      "maxDays": 7
+    },
+    "Olive Oil": {
+      "kind": "pantry",
+      "storage": "pantry",
+      "foodkeeper": "Oils — olive or vegetable",
+      "column": "Pantry after opening",
+      "minDays": 90,
+      "maxDays": 150
+    },
+    "Olives": {
+      "kind": "veg",
+      "storage": "fridge",
+      "foodkeeper": "Olives — black and green",
+      "column": "Refrigerate after opening",
+      "minDays": 14,
+      "maxDays": 14
+    },
+    "Onions": {
+      "kind": "veg",
+      "storage": "fridge",
+      "foodkeeper": "Onions — yellow, white, red, etc.",
+      "column": "Refrigerate from purchase",
+      "minDays": 60,
+      "maxDays": 60
+    },
+    "Oregano": {
+      "kind": "pantry",
+      "storage": "pantry",
+      "foodkeeper": "Herbs — dried",
+      "column": "Pantry after opening",
+      "minDays": 365,
+      "maxDays": 730
+    },
+    "Parmesan": {
+      "kind": "cheese",
+      "storage": "fridge",
+      "foodkeeper": "Cheese — parmesan; shredded or grated",
+      "column": "Refrigerate from purchase",
+      "minDays": 360,
+      "maxDays": 360
+    },
+    "Pepperoni": {
+      "kind": "meat",
+      "storage": "fridge",
+      "foodkeeper": "Sausage — hard, dry (pepperoni), sliced",
+      "column": "Refrigerate from purchase",
+      "minDays": 14,
+      "maxDays": 21
+    },
+    "Pesto Chicken": {
+      "kind": "poultry",
+      "storage": "fridge",
+      "foodkeeper": "Cooked poultry dishes",
+      "column": "Refrigerate",
+      "minDays": 3,
+      "maxDays": 4,
+      "proxy": "Cooked poultry dishes",
+      "note": "Marinated chicken, cooked in-house before topping, treated as a cooked poultry dish."
+    },
+    "Pineapple": {
+      "kind": "fruit",
+      "storage": "fridge",
+      "foodkeeper": "Pineapple",
+      "column": "Refrigerate",
+      "minDays": 5,
+      "maxDays": 7
+    },
+    "Pizza Dough": {
+      "kind": "base",
+      "storage": "fridge",
+      "foodkeeper": "Dough — commercial (bread or cookie)",
+      "column": "Refrigerate",
+      "minDays": 3,
+      "maxDays": 4,
+      "proxy": "Dough — commercial (bread or cookie)",
+      "note": "House pizza dough; FoodKeeper lists commercial dough."
+    },
+    "Pomegranate Seeds": {
+      "kind": "fruit",
+      "storage": "fridge",
+      "foodkeeper": "Pomegranate (whole fruit)",
+      "column": "Refrigerate from purchase",
+      "minDays": 30,
+      "maxDays": 90,
+      "proxy": "Pomegranate (whole fruit)",
+      "note": "FoodKeeper lists the whole fruit, not the seeds."
+    },
+    "Potatoes": {
+      "kind": "veg",
+      "storage": "fridge",
+      "foodkeeper": "Potatoes",
+      "column": "Refrigerate from purchase",
+      "minDays": 7,
+      "maxDays": 14
+    },
+    "Red Onions": {
+      "kind": "veg",
+      "storage": "fridge",
+      "foodkeeper": "Onions — yellow, white, red, etc.",
+      "column": "Refrigerate from purchase",
+      "minDays": 60,
+      "maxDays": 60
+    },
+    "Red Sauce": {
+      "kind": "sauce",
+      "storage": "fridge",
+      "foodkeeper": "Tomato sauce — spaghetti, pizza",
+      "column": "Refrigerate after opening",
+      "minDays": 3,
+      "maxDays": 5
+    },
+    "Romaine Lettuce": {
+      "kind": "herb",
+      "storage": "fridge",
+      "foodkeeper": "Lettuce — iceberg, romaine",
+      "column": "Refrigerate from purchase",
+      "minDays": 7,
+      "maxDays": 14
+    },
+    "Salami": {
+      "kind": "meat",
+      "storage": "fridge",
+      "foodkeeper": "Salami — pre-packaged, luncheon/deli meat",
+      "column": "Refrigerate from purchase",
+      "minDays": 14,
+      "maxDays": 14
+    },
+    "Spiced Ground Chicken": {
+      "kind": "poultry",
+      "storage": "fridge",
+      "foodkeeper": "Cooked poultry dishes",
+      "column": "Refrigerate",
+      "minDays": 3,
+      "maxDays": 4,
+      "proxy": "Cooked poultry dishes",
+      "note": "Marinated chicken, cooked in-house before topping, treated as a cooked poultry dish."
+    },
+    "Spiced Ground Lamb": {
+      "kind": "meat",
+      "storage": "fridge",
+      "foodkeeper": "Leftovers — with meat, fish, poultry, or egg",
+      "column": "Refrigerate",
+      "minDays": 3,
+      "maxDays": 4,
+      "proxy": "Leftovers — with meat, fish, poultry, or egg",
+      "note": "Pre-cooked seekh-kabab-style lamb, treated as cooked leftovers with meat."
+    },
+    "Spicy BBQ Sauce": {
+      "kind": "sauce",
+      "storage": "fridge",
+      "foodkeeper": "Barbecue sauce — bottled",
+      "column": "Refrigerate after opening",
+      "minDays": 120,
+      "maxDays": 120,
+      "proxy": "Barbecue sauce — bottled",
+      "note": "Spiced bottled barbecue sauce."
+    },
+    "Spicy Curry Sauce": {
+      "kind": "sauce",
+      "storage": "fridge",
+      "foodkeeper": "Leftovers — without meat (cooked vegetables)",
+      "column": "Refrigerate",
+      "minDays": 3,
+      "maxDays": 4,
+      "proxy": "Leftovers — without meat (cooked vegetables)",
+      "note": "House-cooked sauce, treated as cooked leftovers."
+    },
+    "Strawberries": {
+      "kind": "fruit",
+      "storage": "fridge",
+      "foodkeeper": "Strawberries",
+      "column": "Refrigerate from purchase",
+      "minDays": 2,
+      "maxDays": 3
+    },
+    "Tandoori BBQ Chicken": {
+      "kind": "poultry",
+      "storage": "fridge",
+      "foodkeeper": "Cooked poultry dishes",
+      "column": "Refrigerate",
+      "minDays": 3,
+      "maxDays": 4,
+      "proxy": "Cooked poultry dishes",
+      "note": "Marinated chicken, cooked in-house before topping, treated as a cooked poultry dish."
+    },
+    "Tandoori Chicken": {
+      "kind": "poultry",
+      "storage": "fridge",
+      "foodkeeper": "Cooked poultry dishes",
+      "column": "Refrigerate",
+      "minDays": 3,
+      "maxDays": 4,
+      "proxy": "Cooked poultry dishes",
+      "note": "Marinated chicken, cooked in-house before topping, treated as a cooked poultry dish."
+    },
+    "Tandoori Marinade": {
+      "kind": "sauce",
+      "storage": "fridge",
+      "foodkeeper": "Yogurt",
+      "column": "Refrigerate from purchase",
+      "minDays": 7,
+      "maxDays": 14,
+      "proxy": "Yogurt",
+      "note": "Yogurt-based marinade."
+    },
+    "Tangy Sauce": {
+      "kind": "sauce",
+      "storage": "fridge",
+      "foodkeeper": "Chutney",
+      "column": "Refrigerate after opening",
+      "minDays": 30,
+      "maxDays": 60,
+      "proxy": "Chutney",
+      "note": "House tamarind-style sauce, treated as chutney."
+    },
+    "Wing Sauce": {
+      "kind": "sauce",
+      "storage": "fridge",
+      "foodkeeper": "Ketchup, cocktail, or chili sauce",
+      "column": "Refrigerate after opening",
+      "minDays": 180,
+      "maxDays": 180,
+      "proxy": "Ketchup, cocktail, or chili sauce",
+      "note": "Bottled chili-based sauce."
+    }
+  }
+}

@@ -1,0 +1,28 @@
+// Fallback menu in the shape of the Maven "Pizza Place Sales" data.
+// Used only when data/restaurant-menu.json can't be read, so the demo never breaks.
+export const SEED_MENU = [
+  { id: 'bbq_ckn', name: 'The Barbecue Chicken Pizza', category: 'Chicken', price: 16.75,
+    ingredients: ['Barbecued Chicken', 'Red Peppers', 'Green Peppers', 'Tomatoes', 'Red Onions', 'Barbecue Sauce'] },
+  { id: 'cali_ckn', name: 'The California Chicken Pizza', category: 'Chicken', price: 16.75,
+    ingredients: ['Chicken', 'Artichoke', 'Spinach', 'Garlic', 'Jalapeno Peppers', 'Fontina Cheese', 'Gouda Cheese'] },
+  { id: 'thai_ckn', name: 'The Thai Chicken Pizza', category: 'Chicken', price: 16.75,
+    ingredients: ['Chicken', 'Pineapple', 'Tomatoes', 'Red Peppers', 'Thai Sweet Chilli Sauce'] },
+  { id: 'ckn_alfredo', name: 'The Chicken Alfredo Pizza', category: 'Chicken', price: 16.75,
+    ingredients: ['Chicken', 'Red Onions', 'Red Peppers', 'Mushrooms', 'Asiago Cheese', 'Alfredo Sauce'] },
+  { id: 'spinach_pesto', name: 'The Spinach Pesto Pizza', category: 'Veggie', price: 16.5,
+    ingredients: ['Spinach', 'Artichokes', 'Tomatoes', 'Sun-dried Tomatoes', 'Garlic', 'Pesto Sauce'] },
+  { id: 'green_garden', name: 'The Green Garden Pizza', category: 'Veggie', price: 16.0,
+    ingredients: ['Spinach', 'Mushrooms', 'Tomatoes', 'Green Olives', 'Feta Cheese'] },
+  { id: 'mexicana', name: 'The Mexicana Pizza', category: 'Veggie', price: 16.0,
+    ingredients: ['Tomatoes', 'Red Peppers', 'Jalapeno Peppers', 'Red Onions', 'Cilantro', 'Corn', 'Chipotle Sauce', 'Garlic'] },
+  { id: 'mediterraneo', name: 'The Mediterranean Pizza', category: 'Veggie', price: 16.0,
+    ingredients: ['Spinach', 'Artichokes', 'Kalamata Olives', 'Sun-dried Tomatoes', 'Feta Cheese', 'Plum Tomatoes', 'Red Onions'] },
+  { id: 'five_cheese', name: 'The Five Cheese Pizza', category: 'Veggie', price: 18.5,
+    ingredients: ['Mozzarella Cheese', 'Provolone Cheese', 'Smoked Gouda Cheese', 'Romano Cheese', 'Blue Cheese', 'Garlic'] },
+  { id: 'pepperoni', name: 'The Pepperoni Pizza', category: 'Classic', price: 12.5,
+    ingredients: ['Mozzarella Cheese', 'Pepperoni'] },
+  { id: 'hawaiian', name: 'The Hawaiian Pizza', category: 'Classic', price: 13.25,
+    ingredients: ['Sliced Ham', 'Pineapple', 'Mozzarella Cheese'] },
+  { id: 'big_meat', name: 'The Big Meat Pizza', category: 'Classic', price: 16.0,
+    ingredients: ['Bacon', 'Pepperoni', 'Italian Sausage', 'Chorizo Sausage'] },
+];
