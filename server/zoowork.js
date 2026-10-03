@@ -1,6 +1,7 @@
 // ZooWork adapter. Everything that should run on ZooWork goes through here.
 //
-// askChefAssistant runs on a ZooWork managed agent. Set USE_ZOOWORK=1 in .env to use it.
+// Two managed agents, created once each and reused: the chef-assistant (askChefAssistant) and the
+// voice command interpreter (interpretCommand). Set USE_ZOOWORK=1 in .env to use them.
 // Dish photos come from Cloudflare Workers AI instead (server/cloudflare.js): ZooWork has no
 // documented image-generation API.
 import fs from 'node:fs';
@@ -10,30 +11,44 @@ import { createZooworkClient, ZooworkError, assistantText, isRunFinished, runOut
 
 export const zooworkOn = () => process.env.USE_ZOOWORK === '1' && Boolean(process.env.ZOOWORK_API_KEY);
 
-const AGENT_NAME = 'spoiler-alert-chef-assistant';
-const AGENT_LABELS = { app: 'spoiler-alert', role: 'chef-assistant' };
-const AGENT_INSTRUCTIONS =
-  'You are @chef-assistant for Tandoori Pizza in San Jose. At closing time you turn ingredients that expire tomorrow ' +
-  "into specials, using only the restaurant's own recipes. Always reply with only the JSON the user asks for, no prose.";
-const TURN_BUDGET_MS = 90_000; // a stuck run must not hang the night; the caller falls back to rules
+const CACHE_DIR = path.join(path.dirname(fileURLToPath(import.meta.url)), '..', 'node_modules', '.cache', 'spoiler-alert');
 
-// The agent id lives in memory and in node_modules/.cache (gitignored), so we create the agent once.
-const CACHE_FILE = path.join(path.dirname(fileURLToPath(import.meta.url)), '..', 'node_modules', '.cache', 'spoiler-alert', 'zoowork-agent.json');
-const readCachedId = () => { try { return JSON.parse(fs.readFileSync(CACHE_FILE, 'utf8')).agentId || null; } catch { return null; } };
-const writeCachedId = (agentId) => {
-  fs.mkdirSync(path.dirname(CACHE_FILE), { recursive: true });
-  fs.writeFileSync(CACHE_FILE, JSON.stringify({ agentId, name: AGENT_NAME }, null, 2));
+const AGENTS = {
+  chef: {
+    name: 'spoiler-alert-chef-assistant',
+    labels: { app: 'spoiler-alert', role: 'chef-assistant' },
+    instructions:
+      'You are @chef-assistant for Tandoori Pizza in San Jose. At closing time you turn ingredients that expire tomorrow ' +
+      "into specials, using only the restaurant's own recipes. Always reply with only the JSON the user asks for, no prose.",
+    cacheFile: 'zoowork-agent.json',
+  },
+  interpreter: {
+    name: 'spoiler-alert-command-interpreter',
+    labels: { app: 'spoiler-alert', role: 'command-interpreter' },
+    instructions:
+      'You turn one spoken sentence from a pizzeria chef into one app command. You are given the current app state. ' +
+      'Reply with only one JSON object, no prose and no code fences: ' +
+      '{"action": "close|approve|pass|set_stock|set_expiry|reset|none", "target": "...", "value": ..., "note": "..."}. ' +
+      'Use names exactly as listed in the state. If the sentence is not a clear command, reply {"action":"none"}.',
+    cacheFile: 'zoowork-command-interpreter.json',
+  },
 };
 
 let client = null;
 // The SDK reads ZOOWORK_API_KEY from the environment itself; we never pass or print the key.
 const zc = () => (client ??= createZooworkClient());
 
-let agentReady = null; // Promise<string>: one setup at a time, shared by every call
+// The agent ids live in memory and in node_modules/.cache (gitignored), so each agent is created once.
+const cachePath = (cfg) => path.join(CACHE_DIR, cfg.cacheFile);
+const readCachedId = (cfg) => { try { return JSON.parse(fs.readFileSync(cachePath(cfg), 'utf8')).agentId || null; } catch { return null; } };
+const writeCachedId = (cfg, agentId) => {
+  fs.mkdirSync(CACHE_DIR, { recursive: true });
+  fs.writeFileSync(cachePath(cfg), JSON.stringify({ agentId, name: cfg.name }, null, 2));
+};
 
-async function findOrCreateAgent() {
+async function findOrCreateAgent(cfg) {
   // 1. Cached id, if the agent still exists.
-  const cached = readCachedId();
+  const cached = readCachedId(cfg);
   if (cached) {
     try {
       const agent = await zc().getAgent(cached);
@@ -43,8 +58,8 @@ async function findOrCreateAgent() {
     }
   }
   // 2. An agent we created earlier (cache lost, e.g. after reinstalling node_modules).
-  const page = await zc().listAgents({ labels: AGENT_LABELS });
-  const existing = page.data.find((a) => a.name === AGENT_NAME && a.status?.desired_state !== 'deleted');
+  const page = await zc().listAgents({ labels: cfg.labels });
+  const existing = page.data.find((a) => a.name === cfg.name && a.status?.desired_state !== 'deleted');
   if (existing) return existing;
   // 3. Create it, on the platform's default chat model, with a stable idempotency key.
   const models = await zc().listModels();
@@ -53,21 +68,21 @@ async function findOrCreateAgent() {
   return zc().createAgent(
     {
       resource: {
-        name: AGENT_NAME,
+        name: cfg.name,
         model: { primary: model },
-        persona: { docs: [{ name: 'instructions', content: AGENT_INSTRUCTIONS }] },
-        labels: AGENT_LABELS,
-        include_global_skills: false, // it only writes JSON; no tools needed
+        persona: { docs: [{ name: 'instructions', content: cfg.instructions }] },
+        labels: cfg.labels,
+        include_global_skills: false, // they only write JSON; no tools needed
       },
     },
-    `${AGENT_NAME}-v1`,
+    `${cfg.name}-v1`,
   );
 }
 
-async function ensureAgent() {
-  const agent = await findOrCreateAgent();
+async function ensureAgent(cfg) {
+  const agent = await findOrCreateAgent(cfg);
   const agentId = agent.agent_id;
-  writeCachedId(agentId);
+  writeCachedId(cfg, agentId);
   // A create receipt has no status; a read has status.desired_state. Start unless already running.
   if (agent.status?.desired_state !== 'running') {
     await zc().startAgent(agentId);
@@ -76,22 +91,19 @@ async function ensureAgent() {
   return agentId;
 }
 
-const agentId = () => {
-  agentReady ??= ensureAgent().catch((e) => { agentReady = null; throw e; }); // retry setup on the next call
-  return agentReady;
+const ready = {}; // key -> Promise<agentId>: one setup at a time, shared by every call
+const agentId = (key) => {
+  ready[key] ??= ensureAgent(AGENTS[key]).catch((e) => { ready[key] = null; throw e; }); // retry setup on the next call
+  return ready[key];
 };
 
-/**
- * Ask the @chef-assistant agent for specials.
- * @param {string} prompt  Full prompt including expiring items, recipes and chef history.
- * @returns {Promise<string>} The agent's reply text (expected to be JSON, see chefAssistant.js).
- */
-export async function askChefAssistant(prompt) {
-  const id = await agentId();
+// One turn: open a session, send the prompt, wait for the final reply, return its text.
+async function runTurn(key, prompt, budgetMs) {
+  const id = await agentId(key);
   const session = await zc().createSession(id, { initial_events: [{ type: 'user.message', content: prompt }] });
 
   const budget = new AbortController();
-  const timer = setTimeout(() => budget.abort(), TURN_BUDGET_MS);
+  const timer = setTimeout(() => budget.abort(), budgetMs);
   let text = '';
   let cursor;
   try {
@@ -112,11 +124,36 @@ export async function askChefAssistant(prompt) {
         if (e instanceof ZooworkError && e.status >= 400 && e.status < 500) throw e; // retrying can't fix these
         if (e instanceof Error && e.message.startsWith('ZooWork run')) throw e;
       }
-      if (!budget.signal.aborted) await new Promise((r) => setTimeout(r, 1000 * 2 ** attempt));
+      if (!budget.signal.aborted) await new Promise((r) => setTimeout(r, Math.min(1000 * 2 ** attempt, budgetMs / 4)));
     }
-    throw new Error(budget.signal.aborted ? `ZooWork reply took longer than ${TURN_BUDGET_MS / 1000}s` : 'ZooWork stream kept dropping');
+    throw new Error(budget.signal.aborted ? `ZooWork reply took longer than ${budgetMs / 1000}s` : 'ZooWork stream kept dropping');
   } finally {
     clearTimeout(timer);
     budget.abort(); // releases the open HTTP body
   }
+}
+
+/** Create and start both agents in the background, so the first live call doesn't pay for setup. */
+export function warmUp() {
+  if (!zooworkOn()) return;
+  for (const key of Object.keys(AGENTS)) agentId(key).catch((e) => console.warn(`[zoowork] ${AGENTS[key].name} setup failed:`, e.message));
+}
+
+/**
+ * Ask the @chef-assistant agent for specials.
+ * @param {string} prompt  Full prompt including expiring items, recipes and chef history.
+ * @returns {Promise<string>} The agent's reply text (expected to be JSON, see chefAssistant.js).
+ */
+export async function askChefAssistant(prompt) {
+  return runTurn('chef', prompt, 90_000); // a stuck run must not hang the night; the caller falls back to rules
+}
+
+/**
+ * Turn a spoken sentence into a command with the command-interpreter agent.
+ * @param {string} prompt  The sentence plus a summary of the current state.
+ * @param {number} budgetMs
+ * @returns {Promise<string>} The agent's reply text (expected to be one JSON object).
+ */
+export async function interpretCommand(prompt, budgetMs = 10_000) {
+  return runTurn('interpreter', prompt, budgetMs);
 }

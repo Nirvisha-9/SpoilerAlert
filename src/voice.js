@@ -23,6 +23,13 @@ let current = null;
 let gen = 0;               // bumps on reset/mute so callbacks from cancelled speech are ignored
 let ingredientLines = 0;   // the night's first ingredient line is kept; later ones are "extra"
 let voices = [];
+let speaking = false;
+const speakingListeners = new Set();
+function setSpeaking(on) {
+  if (on === speaking) return;
+  speaking = on;
+  for (const fn of speakingListeners) fn(on);
+}
 
 // Speech log for testing: window.__voiceLog holds { speaker, text, start, end }.
 const log = [];
@@ -62,7 +69,9 @@ function enqueue(line) {
 }
 
 function pump() {
-  if (current || !queue.length) return;
+  if (current) return;
+  if (!queue.length) { setSpeaking(false); return; }
+  setSpeaking(true);
   current = queue.shift();
   speakPart(current, 0, gen);
 }
@@ -121,6 +130,18 @@ export function reset() {
   current = null;
   ingredientLines = 0;
   synth?.cancel();
+  setSpeaking(false);
+}
+
+/** Subscribe to "the voice-over is talking" on/off, e.g. to pause the microphone. Returns an unsubscribe. */
+export function onSpeakingChange(fn) {
+  speakingListeners.add(fn);
+  return () => speakingListeners.delete(fn);
+}
+
+/** A short spoken confirmation of a voice command. */
+export function say(text) {
+  enqueue(sentence([text], '@chef-assistant', PRIORITY.key));
 }
 
 /** Speak the short version of a room message, if it has one. */

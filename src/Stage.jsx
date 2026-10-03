@@ -3,6 +3,8 @@ import { useLive, api, getJSON } from './live.js';
 import { glyph } from './ingredients.js';
 import { sfx } from './sfx.js';
 import * as voice from './voice.js';
+import { createListener, listeningSupported } from './listener.js';
+import { parseCommand } from './commands.js';
 import MenuCard from './MenuCard.jsx';
 
 const LOOP = new URLSearchParams(window.location.search).has('loop');
@@ -50,6 +52,100 @@ export default function Stage() {
   const toggleSound = () => setSound((on) => !on);
   useEffect(() => { voice.setEnabled(sound); }, [sound]);
 
+  // ---------- voice agent: hands-free commands ----------
+  const [mode, setMode] = useState('manual');       // 'manual' | 'voice'
+  const [listenStatus, setListenStatus] = useState('off');
+  const [heard, setHeard] = useState('');
+  const [thinking, setThinking] = useState(false);
+  const [reply, setReply] = useState('');           // last confirmation, also spoken
+  const [voiceNote, setVoiceNote] = useState('');
+  const latest = useRef({});                        // fresh state and actions for long-lived speech callbacks
+  const commandChain = useRef(Promise.resolve());   // one command at a time, in the order they were heard
+
+  const respond = (text) => { setReply(text); voice.say(text); };
+
+  const changeMode = (next) => {
+    setVoiceNote('');
+    if (next === 'voice' && !listeningSupported()) { setVoiceNote('Voice commands need Chrome. Staying in Manual.'); return; }
+    setMode(next);
+  };
+
+  useEffect(() => {
+    if (mode !== 'voice') return;
+    const listener = createListener({
+      onInterim: (text) => setHeard(`${text}…`),
+      onFinal: (text) => { setHeard(text); commandChain.current = commandChain.current.then(() => latest.current.handleCommand(text)); },
+      onStatus: setListenStatus,
+      onFail: (message) => { setMode('manual'); setVoiceNote(`${message} Switched back to Manual.`); },
+    });
+    if (!listener) { setMode('manual'); setVoiceNote('Voice commands need Chrome. Switched back to Manual.'); return; }
+    // Never listen while our own voice-over is talking, so it can't hear itself.
+    let resumeTimer = null;
+    const off = voice.onSpeakingChange((talking) => {
+      clearTimeout(resumeTimer);
+      if (talking) listener.pause();
+      else resumeTimer = setTimeout(() => listener.resume(), 350); // let the room echo die down
+    });
+    listener.start();
+    return () => { off(); clearTimeout(resumeTimer); listener.stop(); setListenStatus('off'); setHeard(''); setReply(''); };
+  }, [mode]);
+
+  async function runCommand(cmd) {
+    const s = latest.current.state;
+    const name = cmd.label || cmd.target;
+    try {
+      switch (cmd.action) {
+        case 'close':
+          if (s.phase !== 'open') return respond('The shop is already closed.');
+          respond('Closing the shop.');
+          return await latest.current.start();
+        case 'reset':
+          respond('Starting over.');
+          return await api('reset');
+        case 'approve':
+        case 'pass': {
+          if (s.phase !== 'chef') return respond(cmd.action === 'approve' ? 'You can approve once the chef is asked.' : 'You can pass once the chef is asked.');
+          const p = s.proposals.find((x) => x.id === cmd.target);
+          if (!p) return respond(`${name} isn't on the list anymore.`);
+          if (cmd.action === 'approve' && !p.review?.approved) return respond(`${p.name} didn't pass the critic.`);
+          await api(cmd.action, { id: p.id, note: cmd.note || '' });
+          return respond(cmd.action === 'approve' ? `Approved: ${p.name}${cmd.note ? ', with your twist' : ''}.` : `Passed on ${p.name}.`);
+        }
+        case 'set_stock':
+        case 'set_expiry': {
+          if (s.phase !== 'open') return respond(cmd.action === 'set_stock' ? 'You can edit stock before closing the shop.' : 'You can change expiry dates before closing the shop.');
+          const field = cmd.action === 'set_stock' ? 'stock' : 'daysLeft';
+          setInventory(await api('inventory', { items: [{ name: cmd.target, [field]: cmd.value }] }));
+          setPending((pending) => { const n = { ...pending }; if (n[cmd.target]) { delete n[cmd.target][field]; if (!Object.keys(n[cmd.target]).length) delete n[cmd.target]; } return n; });
+          if (field === 'stock') return respond(`${cmd.target} set to ${cmd.label || `${cmd.value} grams`}.`);
+          return respond(`${cmd.target} expires ${cmd.value === 0 ? 'today' : cmd.value === 1 ? 'tomorrow' : `in ${cmd.value} days`}.`);
+        }
+        default:
+          return respond("I didn't catch that.");
+      }
+    } catch (e) {
+      respond(e.message);
+    }
+  }
+
+  async function handleCommand(text) {
+    const s = latest.current.state;
+    if (!s) return;
+    const ctx = {
+      ingredients: latest.current.inventory?.items.map((i) => i.name) || s.shelf.map((t) => t.name),
+      proposals: s.proposals.map((p) => ({ id: p.id, name: p.name, approved: Boolean(p.review?.approved) })),
+    };
+    let cmd = parseCommand(text, ctx);                // rules first: instant
+    if (!cmd && s.commandFallback) {                  // then the ZooWork interpreter, if it's on
+      setThinking(true);
+      try { cmd = (await api('command/interpret', { text })).command; } catch { cmd = null; } finally { setThinking(false); }
+    }
+    if (!cmd) return respond("I didn't catch that.");
+    if (cmd.error === 'ambiguous') return respond(`Which one: ${cmd.options.join(', ')}?`);
+    if (cmd.error) return respond(cmd.action === 'approve' || cmd.action === 'pass' ? `There's no ${cmd.said} on the chef's list.` : `I couldn't find ${cmd.said}.`);
+    return runCommand(cmd);
+  }
+
   // Load the count whenever a new night opens (first load, or after Start over).
   useEffect(() => {
     if (state?.phase !== 'open') return;
@@ -81,6 +177,7 @@ export default function Stage() {
     try { await api('night/start', { auto: LOOP }); } catch (e) { setError(e.message); }
   };
   const reset = () => api('reset').catch((e) => setError(e.message));
+  latest.current = { state, inventory, start, handleCommand };
 
   // Keyboard: space closes the shop, R resets, V turns the voice on or off. Handy on stage.
   useEffect(() => {
@@ -114,10 +211,14 @@ export default function Stage() {
             {sound ? 'Sound on' : 'Sound off'}
           </button>
         )}
+        {!LOOP && <ModeSwitch mode={mode} onChange={changeMode} disabled={state.phase !== 'open'} />}
         {state.phase === 'open' && <button className="btn btn--primary" onClick={start}>Close the shop</button>}
         {state.phase !== 'open' && !LOOP && <button className="btn btn--ghost" onClick={reset}>Start over</button>}
       </header>
       {error && <p className="toast" role="alert">{error}</p>}
+      {(mode === 'voice' || voiceNote) && (
+        <VoicePanel status={listenStatus} heard={heard} thinking={thinking} reply={reply} note={voiceNote} active={mode === 'voice'} />
+      )}
       {LOOP && sound && !unlocked && voice.isSupported() && <p className="soundnote">Click anywhere for sound</p>}
 
       {night ? (
@@ -141,6 +242,31 @@ export default function Stage() {
         Menu: real (Tandoori Pizza, San Jose). Sales patterns: real (Maven Analytics). Stock and expiry: simulated with USDA shelf-life rules.
       </p>
     </main>
+  );
+}
+
+function ModeSwitch({ mode, onChange, disabled }) {
+  return (
+    <div className="mode" role="radiogroup" aria-label="Control mode" title={disabled ? 'Mode can change only before closing' : undefined}>
+      {[['manual', 'Manual'], ['voice', 'Voice agent']].map(([value, label]) => (
+        <button key={value} type="button" role="radio" aria-checked={mode === value} className={`mode__opt ${mode === value ? 'is-on' : ''}`}
+          disabled={disabled} onClick={() => onChange(value)}>
+          {label}
+        </button>
+      ))}
+    </div>
+  );
+}
+
+function VoicePanel({ status, heard, thinking, reply, note, active }) {
+  const label = thinking ? 'Thinking…' : status === 'paused' ? 'Paused while speaking' : status === 'listening' ? 'Listening' : 'Starting…';
+  return (
+    <aside className="vpanel" aria-live="polite">
+      {active && <p className="vpanel__status"><span className={`vpanel__dot vpanel__dot--${thinking ? 'thinking' : status}`} aria-hidden="true" />{label}</p>}
+      {active && heard && <p className="vpanel__heard">Heard: “{heard}”</p>}
+      {active && reply && <p className="vpanel__reply">{reply}</p>}
+      {note && <p className="vpanel__note">{note}</p>}
+    </aside>
   );
 }
 

@@ -10,6 +10,8 @@ import { reviewSpecial } from './agents/marginCritic.js';
 import { buildMenuCard } from './menuCard.js';
 import { readMemory, remember, forget } from './memory.js';
 import { postToRoom } from './band.js';
+import { zooworkOn, interpretCommand, warmUp } from './zoowork.js';
+import { validateCommand } from '../src/commands.js';
 
 const app = express();
 app.use(express.json());
@@ -27,6 +29,7 @@ const fresh = () => ({
   seed: snapshot.seed,
   source: snapshot.source,
   salesSource: snapshot.salesSource,
+  commandFallback: zooworkOn(), // voice commands the rules miss can go to the ZooWork interpreter
   today: snapshot.today,
   shelf: shelfTiles(),
   messages: [],
@@ -58,6 +61,56 @@ app.get('/api/events', (req, res) => {
   req.on('close', () => { clearInterval(ping); clients.delete(res); });
 });
 app.get('/api/state', (_req, res) => res.json(state));
+
+// ---------- voice commands: the ZooWork fallback for sentences the stage's rules don't match ----------
+const INTERPRET_TIMEOUT_MS = 10_000;
+const commandContext = () => ({
+  ingredients: snapshot.inventory.map((i) => i.name),
+  proposals: state.proposals.map((p) => ({ id: p.id, name: p.name, approved: Boolean(p.review?.approved) })),
+});
+const PHASE_HELP = {
+  open: 'open: the shop is open; stock and expiry can still be edited; "close" starts the night.',
+  chef: 'chef: the chef is choosing a special; approve or pass are possible.',
+  sunrise: 'sunrise: a special is live.',
+};
+
+function interpreterPrompt(text) {
+  const ready = state.proposals.filter((p) => p.review?.approved);
+  return `Sentence from the chef: "${text}"
+
+Current phase: ${PHASE_HELP[state.phase] || `${state.phase}: the agents are working.`}
+Inventory (name: stock in grams, days until expiry):
+${snapshot.inventory.map((i) => `- ${i.name}: ${i.stock} g, ${i.daysLeft} days`).join('\n')}
+Specials waiting for the chef, in order: ${ready.map((p, i) => `${i + 1}. ${p.name}`).join('; ') || 'none'}
+
+Rules:
+- close: close the shop. reset: start over.
+- approve / pass: target = the exact special name from the list. note = any change the chef asks for (e.g. "make it spicier"), else "".
+- set_stock: target = the exact inventory name. value = the NEW total stock in grams (if they say they got more, add it to the current stock).
+- set_expiry: target = the exact inventory name. value = whole days until it expires (tomorrow = 1, today = 0).
+- Anything else, or not sure: {"action":"none"}.
+Reply with only the JSON object.`;
+}
+
+app.post('/api/command/interpret', async (req, res) => {
+  const text = String(req.body?.text || '').trim().slice(0, 300);
+  if (!text) return res.status(400).json({ error: 'Nothing to interpret.' });
+  if (!zooworkOn()) return res.status(501).json({ error: 'The ZooWork interpreter is off (USE_ZOOWORK is not 1).' });
+  const started = Date.now();
+  try {
+    const reply = await Promise.race([
+      interpretCommand(interpreterPrompt(text), INTERPRET_TIMEOUT_MS),
+      new Promise((_, rej) => setTimeout(() => rej(new Error(`no answer within ${INTERPRET_TIMEOUT_MS / 1000}s`)), INTERPRET_TIMEOUT_MS)),
+    ]);
+    let raw = null;
+    try { raw = JSON.parse(reply.replace(/```json|```/g, '').match(/\{[\s\S]*\}/)?.[0] ?? ''); } catch { /* not JSON */ }
+    // Never trust the reply: names and values must match tonight's state before anything runs.
+    res.json({ command: validateCommand(raw, commandContext()), raw: raw ?? reply.slice(0, 300), ms: Date.now() - started });
+  } catch (e) {
+    console.warn('[voice] interpreter:', e.message);
+    res.json({ command: null, error: e.message, ms: Date.now() - started });
+  }
+});
 
 // ---------- closing count: read and correct tonight's inventory before the agents run ----------
 const MAX_DAYS_LEFT = 30;
@@ -249,4 +302,5 @@ if (fs.existsSync(dist)) {
 }
 
 const PORT = Number(process.env.PORT || 3001);
+warmUp();
 app.listen(PORT, () => console.log(`Spoiler Alert API on http://localhost:${PORT}  (menu: ${snapshot.source}, sales: ${snapshot.salesSource}, night seed: ${snapshot.seed})`));
