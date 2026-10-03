@@ -2,6 +2,7 @@ import { useEffect, useRef, useState } from 'react';
 import { useLive, api, getJSON } from './live.js';
 import { glyph } from './ingredients.js';
 import { sfx } from './sfx.js';
+import * as voice from './voice.js';
 import MenuCard from './MenuCard.jsx';
 
 const LOOP = new URLSearchParams(window.location.search).has('loop');
@@ -15,12 +16,39 @@ export default function Stage() {
   const [pending, setPending] = useState({});       // unsaved edits: name -> { stock?, daysLeft? } as typed
   const [fieldErrors, setFieldErrors] = useState({}); // "name|field" -> message
   const [saving, setSaving] = useState(false);
-  const { state, connected } = useLive((fx) => {
+  const [sound, setSound] = useState(true);
+  const [unlocked, setUnlocked] = useState(voice.isUnlocked());
+  const spokenUpTo = useRef(null); // id of the last room message handed to the voice
+  const { state, connected } = useLive((fx, st) => {
     if (fx.type === 'blocked') { sfx.stamp(); setStamp(fx.id); }
     if (fx.type === 'approved') sfx.ok();
     if (fx.type === 'sunrise') sfx.sunrise();
     if (fx.type === 'order') sfx.ticket();
+    if (fx.type === 'card') voice.speakSunrise(st.special);
   });
+
+  // Voice-over: speak each new room message once. Messages already on screen when the page loads stay quiet.
+  useEffect(() => {
+    const messages = state?.messages;
+    if (!messages) return;
+    if (messages.length === 0) { if (spokenUpTo.current) voice.reset(); spokenUpTo.current = 0; return; }
+    const last = messages.at(-1).id;
+    if (spokenUpTo.current === null) { spokenUpTo.current = last; return; }
+    for (const m of messages) if (m.id > spokenUpTo.current) voice.speakMessage(m);
+    spokenUpTo.current = last;
+  }, [state?.messages]);
+
+  // Browsers only allow speech after the first click or key press.
+  useEffect(() => {
+    if (unlocked) return;
+    const onFirst = () => { voice.unlock(); setUnlocked(true); };
+    window.addEventListener('pointerdown', onFirst, { once: true });
+    window.addEventListener('keydown', onFirst, { once: true });
+    return () => { window.removeEventListener('pointerdown', onFirst); window.removeEventListener('keydown', onFirst); };
+  }, [unlocked]);
+
+  const toggleSound = () => setSound((on) => !on);
+  useEffect(() => { voice.setEnabled(sound); }, [sound]);
 
   // Load the count whenever a new night opens (first load, or after Start over).
   useEffect(() => {
@@ -54,12 +82,13 @@ export default function Stage() {
   };
   const reset = () => api('reset').catch((e) => setError(e.message));
 
-  // Keyboard: space closes the shop, R resets. Handy on stage.
+  // Keyboard: space closes the shop, R resets, V turns the voice on or off. Handy on stage.
   useEffect(() => {
     const onKey = (e) => {
       if (isTyping(e.target) || e.metaKey || e.ctrlKey || e.altKey) return;
       if (e.code === 'Space' && state?.phase === 'open') { e.preventDefault(); start(); }
       if (e.key === 'r' || e.key === 'R') reset();
+      if (e.key === 'v' || e.key === 'V') toggleSound();
     };
     window.addEventListener('keydown', onKey);
     return () => window.removeEventListener('keydown', onKey);
@@ -80,10 +109,16 @@ export default function Stage() {
       <header className="topbar">
         <h1 className="logo">Spoiler Alert</h1>
         <p className="topbar__status">{statusLine(state)}</p>
+        {voice.isSupported() && (
+          <button className="btn btn--ghost btn--small sound" aria-pressed={sound} onClick={toggleSound} title="Voice on or off (V)">
+            {sound ? 'Sound on' : 'Sound off'}
+          </button>
+        )}
         {state.phase === 'open' && <button className="btn btn--primary" onClick={start}>Close the shop</button>}
         {state.phase !== 'open' && !LOOP && <button className="btn btn--ghost" onClick={reset}>Start over</button>}
       </header>
       {error && <p className="toast" role="alert">{error}</p>}
+      {LOOP && sound && !unlocked && voice.isSupported() && <p className="soundnote">Click anywhere for sound</p>}
 
       {night ? (
         <div className="night">
