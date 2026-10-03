@@ -1,6 +1,13 @@
 // Builds the finished menu card: photo, copy, price, QR, plus structured data for shopper agents.
+import fs from 'node:fs';
+import path from 'node:path';
+import { fileURLToPath } from 'node:url';
 import QRCode from 'qrcode';
-import { generateDishImage, zooworkOn } from './zoowork.js';
+import { generateDishImage, cloudflareOn, imageType } from './cloudflare.js';
+
+const PHOTO_DIR = path.join(path.dirname(fileURLToPath(import.meta.url)), '..', 'data', 'photos');
+const PHOTO_TIMEOUT_MS = 20_000;
+const PHOTO_EXTS = { png: 'image/png', jpg: 'image/jpeg', webp: 'image/webp' };
 
 const TOPPING_COLORS = {
   poultry: '#E9C38A', meat: '#B8402F', herb: '#3E8E41', veg: '#D9472B', cheese: '#F6E7B0',
@@ -29,15 +36,59 @@ ${dots}
   return `data:image/svg+xml;base64,${Buffer.from(svg).toString('base64')}`;
 }
 
-export async function buildMenuCard(special, inventory) {
-  const prompt = `Overhead food photo of a pizza: ${special.description} Toppings: ${special.ingredients.join(', ')}. Rustic wooden table, warm restaurant light, shallow depth of field, appetizing, no text, no logos.`;
-  let image = null;
-  if (zooworkOn()) {
+// One photo per recipe, so a special reuses its recipe's photo on later nights.
+const safeId = (id) => (/^[a-z0-9_-]+$/i.test(id || '') ? id : null);
+
+function cachedPhoto(recipeId) {
+  const id = safeId(recipeId);
+  if (!id) return null;
+  for (const [ext, mime] of Object.entries(PHOTO_EXTS)) {
+    const file = path.join(PHOTO_DIR, `${id}.${ext}`);
+    if (fs.existsSync(file)) return `data:${mime};base64,${fs.readFileSync(file).toString('base64')}`;
+  }
+  return null;
+}
+
+// Saved under the image's real format: FLUX.1 schnell returns JPEG, so this is usually <recipeId>.jpg.
+function savePhoto(recipeId, dataUrl) {
+  const id = safeId(recipeId);
+  if (!id) return;
+  const buf = Buffer.from(dataUrl.slice(dataUrl.indexOf(',') + 1), 'base64');
+  const type = imageType(buf);
+  if (!type) return;
+  fs.mkdirSync(PHOTO_DIR, { recursive: true });
+  fs.writeFileSync(path.join(PHOTO_DIR, `${id}.${type.ext}`), buf);
+}
+
+const plainName = (name) => name.replace(/^The\s+/i, '').replace(/\s+Pizza$/i, '');
+
+export function photoPrompt(dishName, toppings, isPizza = true) {
+  const dish = isPizza ? `${plainName(dishName)} pizza` : dishName;
+  const list = toppings.map((t) => t.toLowerCase());
+  const withToppings = list.length > 1 ? `${list.slice(0, -1).join(', ')} and ${list.at(-1)}` : list[0] || 'mozzarella';
+  return `Professional overhead food photography of ${dish} with ${withToppings}, on a rustic wooden table, warm natural restaurant light, shallow depth of field, natural colors, appetizing, no text, no logos.`;
+}
+
+export async function buildMenuCard(special, inventory, menu = []) {
+  const recipe = menu.find((m) => m.id === special.recipeId);
+  const isPizza = (recipe?.section || 'pizza') === 'pizza';
+  const toppings = special.ingredients.filter((x) => x !== 'Pizza Dough');
+
+  // 1. A photo we already made for this recipe. 2. A live photo, if it arrives within 20 s. 3. The illustration.
+  let image = cachedPhoto(special.recipeId);
+  let imageSource = image ? 'cached' : 'illustration';
+  if (!image && cloudflareOn()) {
+    const started = Date.now();
+    const generating = generateDishImage(photoPrompt(recipe?.name || special.name, toppings, isPizza));
+    // Cache it even if it lands after the timeout, so the next night gets it.
+    generating.then((url) => savePhoto(special.recipeId, url), () => {});
     try {
       image = await Promise.race([
-        generateDishImage(prompt),
-        new Promise((_, rej) => setTimeout(() => rej(new Error('image timeout')), 20000)),
+        generating,
+        new Promise((_, rej) => setTimeout(() => rej(new Error(`image took longer than ${PHOTO_TIMEOUT_MS / 1000}s`)), PHOTO_TIMEOUT_MS)),
       ]);
+      imageSource = 'flux';
+      console.log(`[menu-card] photo generated in ${((Date.now() - started) / 1000).toFixed(1)}s`);
     } catch (e) {
       console.warn('[menu-card] image fallback:', e.message);
     }
@@ -47,7 +98,7 @@ export async function buildMenuCard(special, inventory) {
   return {
     ...special,
     image: image || illustratedPizza(special, inventory),
-    imageSource: image ? 'zoowork' : 'illustration',
+    imageSource,
     orderUrl,
     qr,
     // Machine-readable version so shopper agents can find tonight's special too.

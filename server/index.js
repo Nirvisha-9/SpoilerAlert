@@ -178,7 +178,7 @@ async function approve(id, note, rename) {
   remember({ verdict: 'approved', recipeId: p.recipeId, name: special.name, note });
   state.phase = 'sunrise'; push({ type: 'sunrise' });
 
-  const card = await buildMenuCard(special, snapshot.inventory);
+  const card = await buildMenuCard(special, snapshot.inventory, snapshot.menu);
   const expected = Math.max(25, Math.round(state.today.pizzas * 0.2)); // assume the special is ~20% of tomorrow's pizzas
   let grams = 0, saved = 0;
   for (const name of special.rescues) {

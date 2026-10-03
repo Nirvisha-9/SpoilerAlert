@@ -1,7 +1,8 @@
 // ZooWork adapter. Everything that should run on ZooWork goes through here.
 //
-// askChefAssistant runs on a ZooWork managed agent. generateDishImage still throws, and the app
-// falls back to its illustrated card, so the demo always works. Set USE_ZOOWORK=1 in .env to use it.
+// askChefAssistant runs on a ZooWork managed agent. Set USE_ZOOWORK=1 in .env to use it.
+// Dish photos come from Cloudflare Workers AI instead (server/cloudflare.js): ZooWork has no
+// documented image-generation API.
 import fs from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
@@ -118,13 +119,4 @@ export async function askChefAssistant(prompt) {
     clearTimeout(timer);
     budget.abort(); // releases the open HTTP body
   }
-}
-
-/**
- * Generate a food photo with a ZooWork built-in image model.
- * @param {string} prompt
- * @returns {Promise<string>} An image URL or a data: URL.
- */
-export async function generateDishImage(prompt) {
-  throw new Error('ZooWork image model not wired yet');
 }
