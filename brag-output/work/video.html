@@ -1,0 +1,307 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<title>Spoiler Alert brag</title>
+<link href="https://fonts.googleapis.com/css2?family=Bagel+Fat+One&family=Caveat:wght@500;700&family=Figtree:wght@400;500;700&display=swap" rel="stylesheet" />
+<link rel="stylesheet" href="styles.css" />
+<style>
+  /* Every frame is a pure function of time: the app's CSS animations are driven from render(t) instead. */
+  *, *::before, *::after { animation: none !important; transition: none !important; }
+  html, body { width: 1920px; height: 1080px; overflow: hidden; }
+  body { background: var(--ink); }
+  #v { position: relative; width: 1920px; height: 1080px; overflow: hidden; }
+  .scene { position: absolute; inset: 0; }
+  #dawnbg { position: absolute; inset: 0; opacity: 0; background: linear-gradient(180deg, #ff9f6b 0%, #ffc98f 35%, #ffe7b8 70%, #fff4d9 100%); }
+  .cap { position: absolute; left: 0; right: 0; text-align: center; font-family: var(--display); color: var(--moon); font-size: 68px; line-height: 1.05; margin: 0; letter-spacing: -0.01em; }
+  .cap em { font-style: normal; color: var(--amber); }
+
+  /* scene 1: the shelf */
+  #s1 .stockroom { position: absolute; left: 230px; top: 190px; width: 1460px; padding: 170px 34px 20px; }
+  #s1 .sign { width: 190px; height: 64px; top: 40px; right: 40px; }
+  #s1 .sign__face { font-size: 2rem; }
+  #s1 .shelf { gap: 18px; margin-bottom: 26px; }
+  #s1 .jar { padding: 12px 6px 14px; }
+  #s1 .jar__glyph { font-size: 4.4rem; }
+  #s1 .jar__name { font-size: 1.15rem; }
+  #s1 .jar__zz { font-size: 1.1rem; }
+  #bubble { position: absolute; left: 70px; top: 26px; width: 620px; margin: 0; font-size: 1.75rem; line-height: 1.25; padding: 16px 22px; border-radius: 20px; transform-origin: 40px 100%; }
+  #bubble::after { content: ''; position: absolute; left: 70px; bottom: -18px; border: 12px solid transparent; border-top: 14px solid var(--paper); }
+  #bubble b { color: #b3261e; }
+
+  /* scene 2: logo */
+  #s2 { display: grid; place-items: center; align-content: center; gap: 30px; }
+  #s2 .logo { font-size: 230px; }
+  #s2 .tag { margin: 0; font-size: 52px; font-weight: 500; color: var(--moon); text-align: center; line-height: 1.25; }
+  #s2 .tag span { display: inline-block; }
+
+  /* scene 3: the room */
+  #s3 .huddle { position: absolute; left: 200px; top: 205px; width: 1520px; max-height: none; overflow: visible; padding: 28px 34px; }
+  #s3 .huddle__title { font-size: 2.6rem; margin-bottom: 22px; }
+  #s3 .feed { gap: 20px; }
+  #s3 .msg { padding: 20px 26px; border-radius: 18px; }
+  #s3 .msg__from { font-size: 1.35rem; }
+  #s3 .msg__text { font-size: 2.15rem; line-height: 1.28; }
+  #s3 .msg--blocked, #s3 .msg--approved { padding-right: 230px; }
+  #s3 .msg__stamp { font-size: 2.4rem; right: 26px; border-width: 4px; padding: 2px 16px; }
+  #s3 .msg__stamp--ok { font-size: 1.6rem; }
+  .hot { color: #ff8a73; font-weight: 700; }
+
+  /* scene 4: chef's phone */
+  #s4 .phone { position: absolute; right: 230px; left: auto; bottom: auto; top: 120px; transform-origin: 100% 0; width: 520px; padding: 34px 26px 26px; border-radius: 44px; box-shadow: 0 0 0 12px #11131f, 0 40px 80px rgba(0,0,0,.55); }
+  #s4 .phone__app { font-size: 1.2rem; margin-bottom: 18px; }
+  #s4 .phone__bubble { font-size: 1.45rem; padding: 14px 18px; margin-bottom: 18px; }
+  #s4 .phone__option { padding: 16px 18px; margin-bottom: 12px; border-radius: 18px; }
+  #s4 .phone__option strong { font-size: 1.45rem; }
+  #s4 .phone__option span { font-size: 1.1rem; }
+  #s4 .phone__option .btn { font-size: 1.15rem; }
+  #s4 .chat__msg--me { margin: 6px 0 0 auto; width: fit-content; max-width: 88%; font-size: 1.4rem; color: #e8f2ea; padding: 12px 16px; }
+  #s4 .cap { left: 160px; right: auto; width: 820px; text-align: left; top: 380px; font-size: 92px; }
+  #finger { position: absolute; width: 74px; height: 74px; border-radius: 50%; background: rgba(255,255,255,.85); box-shadow: 0 6px 18px rgba(0,0,0,.35); }
+
+  /* scene 5: sunrise */
+  #s5 .topbar { position: absolute; left: 90px; right: 90px; top: 50px; margin: 0; }
+  #s5 .logo { font-size: 3.6rem; }
+  #s5 .topbar__status { font-size: 1.6rem; }
+  #s5 .board { position: absolute; left: 90px; top: 175px; width: 1130px; padding: 34px 40px; }
+  #s5 .board__kicker { font-size: 2.4rem; }
+  #s5 .board__name { font-size: 4.6rem; }
+  #s5 .board__desc { font-size: 2.1rem; }
+  #s5 .board__price { font-size: 4rem; }
+  #s5 .board__qr img { width: 170px; }
+  #s5 .impact { position: absolute; left: 1290px; top: 290px; width: 540px; padding: 30px 34px; }
+  #s5 .impact__big { font-size: 7rem; }
+  #s5 .impact__label { font-size: 1.5rem; line-height: 1.3; }
+  #s5 .impact__month { font-size: 1.45rem; margin: 0; }
+
+  /* scene 6: outro */
+  #s6 { display: grid; place-items: center; align-content: center; gap: 34px; color: var(--dawn-ink); }
+  #s6 .logo { font-size: 200px; color: #c2401f; }
+  #s6 .line { margin: 0; font-size: 56px; font-weight: 700; text-align: center; line-height: 1.2; max-width: 1500px; }
+</style>
+</head>
+<body>
+<div id="v">
+  <div id="dawnbg"></div>
+
+  <section class="scene" id="s1">
+    <p class="cap" style="top:62px" id="cap1">Closing time. The stockroom <em>wakes up.</em></p>
+    <div class="stockroom" id="room1">
+      <div class="sign" id="sign"><span class="sign__face sign__face--open">Open</span><span class="sign__face sign__face--closed">Closed</span></div>
+      <p class="jar__bubble" id="bubble">Chicken Wings: 7.4 kg of us, in since Monday. We expire tomorrow. <b>Use us or lose us.</b></p>
+      <div id="shelves"></div>
+    </div>
+  </section>
+
+  <section class="scene" id="s2">
+    <h1 class="logo" id="logo2">Spoiler Alert</h1>
+    <p class="tag" id="tag2"><span>We know how your ingredients end.</span><br><span>On tomorrow's menu.</span></p>
+  </section>
+
+  <section class="scene" id="s3">
+    <p class="cap" style="top:80px" id="cap3">Agents pitch specials. A critic <em>checks the margin.</em></p>
+    <section class="huddle" id="huddle">
+      <h2 class="huddle__title">The room</h2>
+      <ol class="feed">
+        <li class="msg msg--chef-assistant msg--agent" id="m1"><span class="msg__from">@chef-assistant</span><span class="msg__text">Idea: Last Call Tandoori Wings, $15.59. Uses Chicken Wings that expire tomorrow.</span></li>
+        <li class="msg msg--chef-assistant msg--agent" id="m2"><span class="msg__from">@chef-assistant</span><span class="msg__text">Volume push: Loaded Tandoori Wings, $7.79. Burns the most expiring stock in one go.</span></li>
+        <li class="msg msg--critic msg--approved" id="m3"><span class="msg__from">@margin-critic</span><span class="msg__text">Last Call Tandoori Wings: 20% food cost, $12.45 profit an order at $15.59.</span><span class="msg__stamp msg__stamp--ok" id="st3">Approved</span></li>
+        <li class="msg msg--critic msg--blocked" id="m4"><span class="msg__from">@margin-critic</span><span class="msg__text">Loaded Tandoori Wings: <span class="hot">118% food cost</span>, over our 32% target; −$1.37 profit an order.</span><span class="msg__stamp msg__stamp--blocked" id="st4">Blocked</span></li>
+      </ol>
+    </section>
+  </section>
+
+  <section class="scene" id="s4">
+    <p class="cap" id="cap4">The chef has <em>the final say.</em></p>
+    <aside class="phone" id="phone">
+      <p class="phone__app">Chef's phone</p>
+      <p class="phone__bubble">Chef, these passed the critic. Which one goes on tomorrow's board?</p>
+      <div class="phone__option"><strong>Last Call Tandoori Wings</strong><span>$15.59 · $12.45 profit per order</span><button class="btn btn--small" id="approveBtn">Approve</button></div>
+      <div class="phone__option"><strong>Midnight Achari Wings</strong><span>$15.59 · $12.34 profit per order</span><button class="btn btn--small">Approve</button></div>
+      <p class="chat__msg chat__msg--me" id="goWith">Go with Last Call Tandoori Wings.</p>
+    </aside>
+    <div id="finger"></div>
+  </section>
+
+  <section class="scene is-dawn" id="s5" style="color:var(--dawn-ink)">
+    <header class="topbar"><h1 class="logo">Spoiler Alert</h1><p class="topbar__status">Good morning</p></header>
+    <article class="board" id="board">
+      <p class="board__kicker">Tonight only</p>
+      <div class="board__body">
+        <figure class="board__photo" id="photo"><img src="photo.jpg" alt=""></figure>
+        <div class="board__text">
+          <h2 class="board__name"><span id="name"></span><span class="board__caret" id="caret"></span></h2>
+          <p class="board__desc" id="desc">Our Tandoori Wings, piled with fresh chicken wings.</p>
+          <div class="board__foot">
+            <p class="board__price" id="price">$15.59</p>
+            <div class="board__qr" id="qr"><img src="qr.png" alt=""><span>Scan to order</span></div>
+          </div>
+        </div>
+      </div>
+    </article>
+    <section class="impact" id="impact">
+      <p class="impact__big">$47</p>
+      <p class="impact__label">of stock rescued tonight (7.4 kg of food, out of $58 at risk)</p>
+      <p class="impact__month">About $1,423 a month if every night looks like this</p>
+    </section>
+  </section>
+
+  <section class="scene" id="s6">
+    <h1 class="logo" id="logo6">Spoiler Alert</h1>
+    <p class="line" id="line6">AI agents turn a pizzeria's expiring stock<br>into tomorrow's special.</p>
+  </section>
+</div>
+
+<script>
+// Tonight's shelf from a real run (seed 925479), glyphs from src/ingredients.js.
+const SHELF = [
+  ['Chicken Wings','expiring'],['Pineapple','expiring'],['Artichoke Hearts','expiring'],['Strawberries','expiring'],['Garlic','low'],
+  ['Pizza Dough','ok'],['Mozzarella','ok'],['Creamy Garlic Sauce','ok'],['Red Sauce','ok'],['Diced Tomatoes','ok'],
+  ['Cauliflower','ok'],['Spiced Ground Lamb','ok'],['Potatoes','ok'],['Red Onions','ok'],['Mushrooms','ok'],
+];
+const MAP = [
+  [/chicken/i,'🍗'],[/dough|bread/i,'🫓'],[/cauliflower/i,'🥦'],[/strawberr/i,'🍓'],[/mushroom/i,'🍄'],[/lamb/i,'🍖'],
+  [/tomato/i,'🍅'],[/onion/i,'🧅'],[/garlic/i,'🧄'],[/pineapple/i,'🍍'],[/potato/i,'🥔'],[/mozzarella/i,'🧀'],[/sauce/i,'🥫'],[/artichoke/i,'🌱'],
+];
+const glyph = (n) => MAP.find(([re]) => re.test(n))?.[1] || '🫙';
+const shelves = document.getElementById('shelves');
+const jars = [];
+for (let r = 0; r < 3; r++) {
+  const row = document.createElement('div'); row.className = 'shelf';
+  for (const [name, status] of SHELF.slice(r * 5, r * 5 + 5)) {
+    const j = document.createElement('div'); j.className = 'jar jar--asleep';
+    j.innerHTML = `<span class="jar__glyph">${glyph(name)}</span><span class="jar__name">${name}</span><span class="jar__zz">z z</span>`;
+    row.appendChild(j); jars.push({ el: j, name, status, g: j.firstChild, zz: j.lastChild });
+  }
+  shelves.appendChild(row);
+}
+
+const $ = (id) => document.getElementById(id);
+const cl = (x, a = 0, b = 1) => Math.min(b, Math.max(a, x));
+const P = (t, s, d) => cl((t - s) / d);
+const out = (x) => 1 - Math.pow(1 - x, 3);
+const back = (x) => { const c = 1.7; return 1 + (c + 1) * Math.pow(x - 1, 3) + c * Math.pow(x - 1, 2); };
+const css = (el, o) => Object.assign(el.style, o);
+const show = (el, on) => { el.style.visibility = on ? 'visible' : 'hidden'; };
+
+// Scene windows (seconds). 120 BPM: one beat = 0.5s.
+const S1 = [0, 4.0], S2 = [4.0, 7.5], S3 = [7.5, 14.0], S5 = [13.9, 18.6], S6 = [18.5, 22.0];
+const WAKE = [1.25, 1.5, 1.75, 2.0]; // expiring jars light up on the beat
+const LOW = 2.25, BUBBLE = 2.0;
+const NAME = 'Last Call Tandoori Wings';
+
+function render(t) {
+  // ---------- 1: the shelf ----------
+  const s1 = $('s1'); show(s1, t < S1[1]);
+  if (t < S1[1]) {
+    const exit = P(t, 3.65, 0.35);
+    css(s1, { opacity: 1 - exit, transform: `scale(${1 - 0.04 * out(exit)})` });
+    const intro = out(P(t, 0, 0.5));
+    css($('cap1'), { opacity: intro, transform: `translateY(${(1 - intro) * 20}px)` });
+    const dim = 0.45 + 0.55 * out(P(t, 0.95, 0.4));
+    css($('room1'), { filter: `brightness(${dim}) saturate(${0.6 + 0.4 * dim})`, transform: `scale(${1.03 - 0.03 * out(P(t, 0, 4))})` });
+    const flip = P(t, 0.4, 0.55); // sign: open -> closed, with overshoot like the app's cubic-bezier
+    $('sign').style.transform = `rotateY(${180 * back(flip)}deg)`;
+    jars.forEach((j, i) => {
+      const awake = t >= 1.0;
+      let cls = 'jar ' + (awake ? '' : 'jar--asleep');
+      const k = SHELF.slice(0, 4).findIndex(([n]) => n === j.name);
+      if (k >= 0 && t >= WAKE[k]) cls += ' jar--expiring';
+      if (j.status === 'low' && t >= LOW) cls += ' jar--low';
+      j.el.className = cls;
+      j.zz.style.display = awake ? 'none' : '';
+      j.zz.style.transform = `translateY(${-5 * (0.5 - 0.5 * Math.cos(t * 2.6 + i))}px)`;
+      if (k >= 0 && t >= WAKE[k]) {
+        const pop = P(t, WAKE[k], 0.3);
+        const wig = 2.5 * Math.sin((t - WAKE[k]) * 2 * Math.PI / 1.6);
+        j.el.style.transform = `rotate(${wig}deg)`;
+        j.g.style.transform = `scale(${1 + 0.25 * Math.sin(Math.PI * pop)})`;
+      } else { j.el.style.transform = ''; j.g.style.transform = awake ? '' : 'scaleY(0.92)'; }
+    });
+    const b = P(t, BUBBLE, 0.35);
+    css($('bubble'), { opacity: b, transform: `scale(${0.6 + 0.4 * back(b)})` });
+  }
+
+  // ---------- 2: logo ----------
+  const s2 = $('s2'); show(s2, t >= S2[0] && t < S2[1]);
+  if (t >= S2[0] && t < S2[1]) {
+    const l = P(t, 4.05, 0.4), exit = P(t, 7.2, 0.3);
+    css($('logo2'), { transform: `scale(${0.55 + 0.45 * back(l)})`, opacity: cl(l * 2.5) });
+    const tags = $('tag2').children;
+    [4.4, 4.75].forEach((s, i) => { const p = out(P(t, s, 0.35)); css(tags[i * 2], { opacity: p, transform: `translateY(${(1 - p) * 24}px)` }); });
+    s2.style.opacity = 1 - exit;
+  }
+
+  // ---------- 3 + 4: the room, then the chef's phone over it ----------
+  const s3 = $('s3'); show(s3, t >= S3[0] && t < S3[1]);
+  if (t >= S3[0] && t < S3[1]) {
+    const c = out(P(t, 7.55, 0.4));
+    css($('cap3'), { opacity: c * (1 - P(t, 11.3, 0.3)), transform: `translateY(${(1 - c) * 20}px)` });
+    const h = out(P(t, 7.55, 0.45));
+    const dim = 1 - 0.6 * out(P(t, 11.3, 0.5));
+    css($('huddle'), { opacity: h, transform: `translateY(${(1 - h) * 30}px) scale(${1 - 0.04 * out(P(t, 11.3, 0.6))})`, filter: `brightness(${dim}) blur(${3 * out(P(t, 11.3, 0.5))}px)` });
+    [8.0, 8.5, 9.0, 9.5].forEach((s, i) => { const p = out(P(t, s, 0.4)); css($('m' + (i + 1)), { opacity: p, transform: `translateY(${(1 - p) * 14}px)` }); });
+    [[ 'st3', 9.2 ], [ 'st4', 9.75 ]].forEach(([id, s]) => {
+      const p = P(t, s, 0.45);
+      css($(id), { opacity: p > 0 ? 1 : 0, transform: `translateY(-50%) rotate(-9deg) scale(${2.6 - 1.6 * back(p)})` });
+    });
+    s3.style.opacity = 1 - P(t, 13.3, 0.3);
+  }
+  const s4 = $('s4'); show(s4, t >= 11.3 && t < S3[1]);
+  if (t >= 11.3 && t < S3[1]) {
+    const r = P(t, 11.45, 0.6);
+    $('phone').style.transform = `translateY(${(1 - back(r)) * 1000}px) scale(1.22)`;
+    const c = out(P(t, 11.7, 0.4));
+    css($('cap4'), { opacity: c, transform: `translateX(${(1 - c) * -30}px)` });
+    // finger glides to Approve and taps on the beat (12.5s)
+    const btn = $('approveBtn').getBoundingClientRect();
+    const tx = btn.left + btn.width / 2 - 37, ty = btn.top + btn.height / 2 - 37;
+    const m = out(P(t, 12.0, 0.45));
+    const press = t >= 12.45 && t < 12.65 ? 0.85 : 1;
+    css($('finger'), { left: `${tx + (1 - m) * 220}px`, top: `${ty + (1 - m) * 260}px`, opacity: P(t, 11.95, 0.2) * (1 - P(t, 12.9, 0.3)), transform: `scale(${press})` });
+    const on = t >= 12.5;
+    css($('approveBtn'), { background: on ? 'var(--basil)' : '', color: on ? '#0f2410' : '', transform: `scale(${t >= 12.45 && t < 12.65 ? 0.93 : 1})` });
+    $('approveBtn').textContent = on ? 'Approved' : 'Approve';
+    const g = out(P(t, 12.75, 0.35));
+    css($('goWith'), { opacity: g, transform: `translateY(${(1 - g) * 14}px)` });
+    s4.style.opacity = 1 - P(t, 13.3, 0.3);
+  }
+
+  // ---------- 5: sunrise ----------
+  $('dawnbg').style.opacity = out(P(t, 13.55, 0.7));
+  const s5 = $('s5'); show(s5, t >= S5[0] && t < S5[1]);
+  if (t >= S5[0] && t < S5[1]) {
+    const top = out(P(t, 14.1, 0.4));
+    css(s5.querySelector('.topbar'), { opacity: top });
+    const b = out(P(t, 14.1, 0.55));
+    css($('board'), { opacity: b, transform: `translateY(${(1 - b) * 50}px)` });
+    const dev = out(P(t, 14.3, 1.9));
+    $('photo').firstChild.style.filter = `blur(${10 * (1 - dev)}px) sepia(${1 - dev}) brightness(${1 + 0.9 * (1 - dev)}) contrast(${0.6 + 0.4 * dev})`;
+    const n = Math.floor(cl((t - 14.5) / 0.05, 0, NAME.length));
+    $('name').textContent = NAME.slice(0, n);
+    $('caret').style.opacity = n < NAME.length || Math.floor(t / 0.45) % 2 === 0 ? 1 : 0;
+    css($('desc'), { opacity: out(P(t, 15.4, 0.5)) });
+    const pr = P(t, 16.0, 0.45);
+    css($('price'), { opacity: pr > 0 ? cl(pr * 3) : 0, transform: `scale(${2.4 - 1.4 * back(pr)}) rotate(${-8 + 4 * pr}deg)` });
+    const q = P(t, 16.5, 0.6);
+    css($('qr'), { opacity: cl(q * 2), transform: `translateY(${(1 - back(q)) * -140}%) rotate(${-10 + 14 * back(q)}deg)` });
+    const im = out(P(t, 16.9, 0.5));
+    css($('impact'), { opacity: im, transform: `translateY(${(1 - im) * 30}px)` });
+    s5.style.opacity = 1 - P(t, 18.35, 0.25);
+  }
+
+  // ---------- 6: outro ----------
+  const s6 = $('s6'); show(s6, t >= S6[0]);
+  if (t >= S6[0]) {
+    const l = P(t, 18.65, 0.4);
+    css($('logo6'), { opacity: cl(l * 2.5), transform: `scale(${0.6 + 0.4 * back(l)})` });
+    const ln = out(P(t, 18.95, 0.4));
+    css($('line6'), { opacity: ln, transform: `translateY(${(1 - ln) * 24}px)` });
+  }
+}
+window.render = render;
+window.ready = Promise.all([document.fonts.ready, ...[...document.images].map((i) => i.decode().catch(() => {}))]);
+render(Number(new URLSearchParams(location.search).get('t') || 0));
+</script>
+</body>
+</html>

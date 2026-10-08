@@ -213,7 +213,7 @@ export default function Stage() {
         )}
         {!LOOP && <ModeSwitch mode={mode} onChange={changeMode} disabled={state.phase !== 'open'} />}
         {state.phase === 'open' && <button className="btn btn--primary" onClick={start}>Close the shop</button>}
-        {state.phase !== 'open' && !LOOP && <button className="btn btn--ghost" onClick={reset}>Start over</button>}
+        <button className="btn btn--ghost" onClick={reset}>Start over</button>
       </header>
       {error && <p className="toast" role="alert">{error}</p>}
       {(mode === 'voice' || voiceNote) && (

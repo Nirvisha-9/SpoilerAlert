@@ -4,6 +4,9 @@
   "version": "0.1.0",
   "type": "module",
   "description": "Spoiler Alert: we know how your ingredients end. On tomorrow's menu.",
+  "engines": {
+    "node": ">=20"
+  },
   "scripts": {
     "dev": "concurrently -k -n api,web -c yellow,cyan \"node --watch server/index.js\" \"vite --host\"",
     "build": "vite build",

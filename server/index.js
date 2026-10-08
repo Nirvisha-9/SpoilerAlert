@@ -42,7 +42,9 @@ let state = fresh();
 let run = 0; // bumps on reset so an in-flight night stops
 const clients = new Set();
 
+let lastActivity = Date.now();
 function push(fx) {
+  lastActivity = Date.now(); // every visible change counts as activity
   const payload = `data: ${JSON.stringify({ state, fx })}\n\n`;
   for (const res of clients) res.write(payload);
 }
@@ -285,14 +287,31 @@ app.get('/api/special.json', (_req, res) => {
   res.json(state.special.structured);
 });
 
-app.post('/api/reset', (req, res) => {
+function resetNight() {
   run++;
-  if (req.body?.forgetChef) forget();
   snapshot = buildSnapshot();
   state = fresh();
   push({ type: 'reset' });
+}
+
+app.post('/api/reset', (req, res) => {
+  if (req.body?.forgetChef) forget();
+  resetNight();
   res.json({ ok: true });
 });
+
+// A hosted stage is shared: if a night sits idle after closing, start a fresh one so the next
+// visitor never lands on a stale night.
+const IDLE_RESET_MS = 3 * 60_000;
+setInterval(() => {
+  if (state.phase !== 'open' && Date.now() - lastActivity > IDLE_RESET_MS) {
+    console.log(`[night] idle for ${IDLE_RESET_MS / 60_000} minutes in "${state.phase}", starting a new night`);
+    resetNight();
+  }
+}, 10_000).unref();
+
+// For the host's health check.
+app.get('/api/health', (_req, res) => res.json({ ok: true }));
 
 // ---------- production: serve the built front end ----------
 const dist = path.join(path.dirname(fileURLToPath(import.meta.url)), '..', 'dist');
@@ -303,4 +322,4 @@ if (fs.existsSync(dist)) {
 
 const PORT = Number(process.env.PORT || 3001);
 warmUp();
-app.listen(PORT, () => console.log(`Spoiler Alert API on http://localhost:${PORT}  (menu: ${snapshot.source}, sales: ${snapshot.salesSource}, night seed: ${snapshot.seed})`));
+app.listen(PORT, () => console.log(`Spoiler Alert on port ${PORT}${fs.existsSync(dist) ? ' (serving the built app)' : ''}  (menu: ${snapshot.source}, sales: ${snapshot.salesSource}, night seed: ${snapshot.seed})`));

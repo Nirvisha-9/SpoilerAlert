@@ -1,0 +1,162 @@
+{
+  "decisions": [
+    {
+      "verdict": "approved",
+      "recipeId": "thai_ckn",
+      "name": "Last Call Thai Chicken",
+      "at": "2026-10-03T19:21:14.913Z"
+    },
+    {
+      "verdict": "approved",
+      "recipeId": "bbq_ckn",
+      "name": "Midnight Barbecue Chicken",
+      "at": "2026-10-03T19:23:31.761Z"
+    },
+    {
+      "verdict": "approved",
+      "recipeId": "italian_garlic_combo",
+      "name": "Last Call Italian Garlic Combination",
+      "note": "",
+      "at": "2026-10-03T20:25:21.585Z"
+    },
+    {
+      "verdict": "approved",
+      "recipeId": "curry_veggie",
+      "name": "Last Call Curry Veggie Delight",
+      "note": "",
+      "at": "2026-10-03T20:36:15.083Z"
+    },
+    {
+      "verdict": "approved",
+      "recipeId": "curry_veggie",
+      "name": "Last Call Curry Veggie Delight",
+      "note": "",
+      "at": "2026-10-03T20:41:20.092Z"
+    },
+    {
+      "verdict": "approved",
+      "recipeId": "margherita",
+      "name": "Midnight Original Margherita",
+      "at": "2026-10-03T20:48:06.625Z"
+    },
+    {
+      "verdict": "approved",
+      "recipeId": "italian_garlic_combo",
+      "name": "Last Call Italian Garlic Combination",
+      "at": "2026-10-03T20:54:50.066Z"
+    },
+    {
+      "verdict": "approved",
+      "recipeId": "all_meat_combo",
+      "name": "Midnight All Meat Combination",
+      "at": "2026-10-03T20:59:44.995Z"
+    },
+    {
+      "verdict": "approved",
+      "recipeId": "garlic_chicken_combo",
+      "name": "Closing Time Garlic Chicken Combo",
+      "note": "",
+      "at": "2026-10-03T21:03:45.359Z"
+    },
+    {
+      "verdict": "approved",
+      "recipeId": "tandoori_bbq_chicken",
+      "name": "Tandoori BBQ Closing Fire",
+      "at": "2026-10-03T21:09:55.195Z"
+    },
+    {
+      "verdict": "approved",
+      "recipeId": "malai_paneer",
+      "name": "Closing Bell Malai Paneer",
+      "note": "",
+      "at": "2026-10-03T21:22:46.770Z"
+    },
+    {
+      "verdict": "approved",
+      "recipeId": "malai_chicken",
+      "name": "Malai Chicken Last Call",
+      "at": "2026-10-03T21:25:52.377Z"
+    },
+    {
+      "verdict": "approved",
+      "recipeId": "curry_veggie",
+      "name": "Last Call Curry Veggie Delight",
+      "note": "",
+      "at": "2026-10-03T21:43:05.585Z"
+    },
+    {
+      "verdict": "approved",
+      "recipeId": "curry_veggie",
+      "name": "Last Call Curry Veggie Delight",
+      "note": "",
+      "at": "2026-10-03T21:43:16.293Z"
+    },
+    {
+      "verdict": "approved",
+      "recipeId": "curry_veggie",
+      "name": "Last Call Curry Veggie Delight",
+      "note": "",
+      "at": "2026-10-03T21:43:25.411Z"
+    },
+    {
+      "verdict": "approved",
+      "recipeId": "curry_veggie",
+      "name": "Last Call Curry Veggie Delight",
+      "note": "",
+      "at": "2026-10-03T21:43:49.171Z"
+    },
+    {
+      "verdict": "approved",
+      "recipeId": "cauliflower_wings",
+      "name": "Golden Gobhi Wing Night",
+      "at": "2026-10-03T21:47:26.029Z"
+    },
+    {
+      "verdict": "approved",
+      "recipeId": "chili_paneer",
+      "name": "Last Call Chili Paneer",
+      "note": "",
+      "at": "2026-10-03T21:56:37.519Z"
+    },
+    {
+      "verdict": "approved",
+      "recipeId": "desi_garlic_chicken",
+      "name": "Garlic Chicken Last Call",
+      "at": "2026-10-03T22:04:24.857Z"
+    },
+    {
+      "verdict": "approved",
+      "recipeId": "tandoori_wings",
+      "name": "Tandoori Sunset Wings",
+      "at": "2026-10-03T22:08:29.417Z"
+    },
+    {
+      "verdict": "approved",
+      "recipeId": "classic_vegetarian",
+      "name": "Artichoke Garden Classic",
+      "note": "",
+      "at": "2026-10-03T22:27:37.487Z"
+    },
+    {
+      "verdict": "approved",
+      "recipeId": "tandoori_chicken",
+      "name": "Tandoori Twilight Chicken",
+      "note": "",
+      "at": "2026-10-03T22:29:34.052Z"
+    },
+    {
+      "verdict": "passed",
+      "recipeId": "chatpatta_aaloo",
+      "name": "Tangy Masala Potato Nightcap",
+      "note": "",
+      "at": "2026-10-03T22:33:40.942Z"
+    },
+    {
+      "verdict": "approved",
+      "recipeId": "italian_garlic_combo",
+      "name": "Sausage After-Hours Garlic Combo",
+      "note": "",
+      "at": "2026-10-03T22:33:53.401Z"
+    }
+  ]
+}
